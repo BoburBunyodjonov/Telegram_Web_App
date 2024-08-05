@@ -7,6 +7,11 @@ interface categoriesArrType {
     products?: ProductType[];
 }
 
+interface ProductListProps {
+    products: ProductType[];
+  }
+
+
 
 
 interface ProductType {
@@ -28,15 +33,25 @@ interface ProductType {
     quantity?: number;
 }
 
+
 export interface CategoriesType {
     id: number;
+    category_type: string;
     name: string;
     img: string;
+    products: ProductType[]; 
   }
-  
+
+  export interface CategoryType {
+    id: number;
+    category_type: string;
+    name: string;
+    img: string;
+    products: ProductType[];
+  }
 
 
-export const categoriesArr: categoriesArrType[] = [
+export const categoriesArr: CategoryType[] = [
     {
         id: 1,
         category_type: 't-shirt',

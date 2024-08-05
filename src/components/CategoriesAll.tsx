@@ -1,14 +1,13 @@
+import React from "react";
 import CategoriesCard from "./CategoriesCard";
-
-import { categoriesArr } from "../constants/Categories.constants";
+import { categoriesArr, CategoriesType } from "../constants/Categories.constants"; // Ensure correct import path
 import { NavLink, useNavigate } from "react-router-dom";
-
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const CategoriesAll: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleListItemClick = (id:number) => {
+  const handleListItemClick = (id: number) => {
     const clickedItem = categoriesArr.find((item) => item.id === id);
     if (clickedItem) {
       navigate(`/singleCategorie/${id}`);
@@ -34,15 +33,22 @@ const CategoriesAll: React.FC = () => {
           </NavLink>
         </div>
         <div className="gap-4 mb-4 grid grid-cols-2">
-          {categoriesArr.map((item: categoriesArrType) => (
-            <CategoriesCard
-              handlerClick={() => handleListItemClick(item.id)}
-              key={item.id}
-              item={item}
-              text={item.name}
-              image={item.img}
-            />
-          ))}
+          {categoriesArr.map((item) => {
+            // Ensure item.id, item.name, and item.img are defined and valid
+            if (item.id !== undefined && item.name !== undefined && item.img !== undefined) {
+              return (
+                <CategoriesCard
+                  handlerClick={() => handleListItemClick(item.id)}
+                  key={item.id}
+                  item={item}
+                  text={item.name}
+                  image={item.img}
+                />
+              );
+            }
+            // Optionally handle the case where item.id, item.name, or item.img is undefined
+            return null;
+          })}
         </div>
       </div>
     </>

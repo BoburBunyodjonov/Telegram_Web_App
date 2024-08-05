@@ -8,20 +8,20 @@ import Slider from "react-slick";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ReplyIcon from "@mui/icons-material/Reply";
 
-
 // Component
 import ProductList from "./ProductList";
 // React Router Dom
 import { useParams } from "react-router-dom";
 // Data
-import { categoriesArr } from "../constants/Categories.constants";
+import { categoriesArr,  ProductType } from "../constants/Categories.constants";
 // Currency
 import currency_value from "currency.js";
 import ComeBack from "./ComeBack";
 
 const ProductCardDetails = () => {
-  const { id } = useParams();
-  const [item, setItem] = useState(null);
+  
+  const { id } = useParams<{ id: string }>();
+  const [item, setItem] = useState<ProductType | null>(null);
 
   interface SliderSettings {
     dots: boolean;
@@ -42,14 +42,24 @@ const ProductCardDetails = () => {
   };
 
   useEffect(() => {
-    let foundItem = null;
+    if (!id) {
+      console.log("Error: id is undefined");
+      return;
+    }
+
+    let foundItem: ProductType | null = null;
+
     for (const category of categoriesArr) {
-      foundItem = category.products.find(
-        (item) => item.product_id === parseInt(id)
-      );
+      if (category.products) {
+        foundItem = category.products.find(
+          (product) => product.product_id === parseInt(id)
+        );
+      }
       if (foundItem) break;
     }
-    setItem(foundItem);
+
+    setItem(foundItem || null);
+
     if (!foundItem) {
       console.log("Error: Item not found");
     }
@@ -61,7 +71,7 @@ const ProductCardDetails = () => {
 
   const { price, discount_percent } = item;
 
-  const calculateDiscountedPrice = (price, discountPercent) => {
+  const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
     return price - price * (discountPercent / 100);
   };
 
@@ -83,7 +93,7 @@ const ProductCardDetails = () => {
       <ComeBack text={item.title}/>
       <Box>
         <Slider {...settings} className="bg-white">
-          {item.product_img.map((imgItem, index) => (
+          {item.product_img.map((imgItem: string, index: number) => (
             <div
               key={index}
               className="w-full h-[400px] overflow-hidden relative bg-[#FAFAFA]"

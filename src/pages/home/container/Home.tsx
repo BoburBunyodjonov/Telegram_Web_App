@@ -1,5 +1,5 @@
-import { useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import MyLocation from "../components/MyLocation";
 import Header from "../components/Header";
@@ -11,7 +11,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { NavLink } from "react-router-dom";
 
 const Home = () => {
-  const modal = useSelector((state) => state.modal.open);
+  const modal = useSelector((state: RootState) => state.modal.open);
 
   useEffect(() => {
     console.log("Modal state:", modal);

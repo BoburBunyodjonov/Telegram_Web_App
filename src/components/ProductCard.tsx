@@ -13,7 +13,7 @@ import currency_value from "currency.js";
 import { useDispatch, useSelector } from "react-redux";
 import { add, increaseQuantity, decreaseQuantity } from "../reducers/CartSlice";
 import { openModal } from "../reducers/ModalSlice";
-import { RootState } from "../store/store";
+import {RootState}  from "../store/store";
 
 // Define the props interface
 interface ProductCardProps {
@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   useEffect(() => {
     const productInCart = cartItems.find(
-      (item) => item.product_id === items.product_id
+      (item: { product_id: string }) => item.product_id === items.product_id
     );
     if (productInCart) {
       setAddedToCart(true);

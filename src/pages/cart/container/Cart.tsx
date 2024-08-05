@@ -6,15 +6,23 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // import { remove } from "../../../reducers/CartSlice";
 import currency_value from "currency.js";
 
+interface ProductType {
+  product_id: string;
+  price: string; 
+  discount_percent: number;
+  quantity: number;
+  title: string; 
+  product_img: string[]; 
+  currency: string;
+}
+
 const Cart: React.FC = () => {
   const cartitems = useSelector((state: RootState) => state.cart);
 
-
-
   const calculateTotalPrice = (): string => {
     let totalPrice = 0;
-    cartitems.forEach((product) => {
-      const calculateDiscountedPrice = (price, discountPercent) => {
+    cartitems.forEach((product: ProductType) => {
+      const calculateDiscountedPrice = (price: number, discountPercent: number) => {
         return price - price * (discountPercent / 100);
       };
       const discountedPrice = calculateDiscountedPrice(
@@ -41,7 +49,7 @@ const Cart: React.FC = () => {
       </div>
       <div className="h-[74vh] overflow-scroll bg-white">
 
-      {cartitems.map((data, index) => (
+      {cartitems.map((data: ProductType, index: number) => (
         <CartCard key={data.product_id} index={index} {...data} />
       ))}
       </div>

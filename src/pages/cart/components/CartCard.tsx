@@ -5,17 +5,41 @@ import AddIcon from "@mui/icons-material/Add";
 import currency_value from "currency.js";
 import { increaseQuantity, decreaseQuantity } from "../../../reducers/CartSlice";
 
-const CartCard = (props) => {
-  const { index, price, title, discount_percent, product_img, currency, product_id, quantity } = props;
+
+
+interface CartCardProps {
+  product_id?: string;
+  price?: string;
+  discount_percent?: number;
+  quantity?: number;
+  title?: string;
+  product_img?: string[];
+  currency?: string;
+  index?: number;
+}
+
+
+const CartCard: React.FC<CartCardProps> = ({
+  index,
+  price,
+  title,
+  discount_percent,
+  product_img,
+  currency,
+  product_id,
+  quantity,
+}) => {
   const dispatch = useDispatch();
 
-  const calculateDiscountedPrice = (price, discountPercent) => {
+  const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
     return price - price * (discountPercent / 100);
   };
 
   const discountedPrice = calculateDiscountedPrice(price, discount_percent);
 
-  const formattedAmount = currency_value(discountedPrice * quantity, {
+  const effectiveQuantity = quantity !== undefined ? quantity : 0;
+
+  const formattedAmount = currency_value(discountedPrice * effectiveQuantity, {
     precision: 0,
     symbol: "",
     separator: " ",
@@ -31,7 +55,9 @@ const CartCard = (props) => {
     dispatch(decreaseQuantity(product_id));
   };
 
-const imgSrc = product_img?.[1] || 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'; 
+  const imgSrc =
+    product_img?.[1] ||
+    "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg";
 
   return (
     <div
