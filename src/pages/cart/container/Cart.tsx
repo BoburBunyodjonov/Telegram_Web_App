@@ -5,6 +5,7 @@ import { Button } from "../../../components";
 import DeleteIcon from "@mui/icons-material/Delete";
 // import { remove } from "../../../reducers/CartSlice";
 import currency_value from "currency.js";
+import { RootState } from "../../../store/store";
 
 interface ProductType {
   product_id: string;

@@ -9,6 +9,7 @@ import { CategoriesAll, ProductList } from "../../../components";
 
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { NavLink } from "react-router-dom";
+import { RootState } from "../../../store/store";
 
 const Home = () => {
   const modal = useSelector((state: RootState) => state.modal.open);
