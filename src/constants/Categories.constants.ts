@@ -1,5 +1,5 @@
 
-interface categoriesArrType {
+export interface categoriesArrType {
     id?: number;
     name?: string;
     img?: string;
@@ -7,19 +7,25 @@ interface categoriesArrType {
     products?: ProductType[];
 }
 
-interface ProductListProps {
+export interface ProductListProps {
     products: ProductType[];
   }
 
-interface CategoriesCardProps {
+export interface CategoriesCardProps {
     handlerClick: () => void;
     item: CategoryType;
     text: string;
     image: string;
   }
 
+export interface ProductProps {
+    price: number;
+    discount_percent: number;
+  }
+  
 
-interface ProductType {
+
+export type  ProductType = {
     product_id?: number;
     title?: string;
     price?: number;

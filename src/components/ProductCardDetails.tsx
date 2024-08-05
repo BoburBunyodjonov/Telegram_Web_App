@@ -47,11 +47,11 @@ const ProductCardDetails = () => {
       return;
     }
 
-    let foundItem: ProductType | null = null;
+    let foundItem: ProductType | undefined;
 
     for (const category of categoriesArr) {
       if (category.products) {
-        foundItem = category.products.find(
+        foundItem  = category.products.find(
           (product) => product.product_id === parseInt(id)
         );
       }
@@ -71,9 +71,9 @@ const ProductCardDetails = () => {
 
   const { price, discount_percent } = item;
 
-  const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
-    return price - price * (discountPercent / 100);
-  };
+ const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
+  return price - price * (discountPercent / 100);
+};
 
   const discountedPrice = calculateDiscountedPrice(price, discount_percent);
 
@@ -90,10 +90,10 @@ const ProductCardDetails = () => {
 
   return (
     <>
-      <ComeBack text={item.title}/>
+      <ComeBack text={item.title as string}/>
       <Box>
         <Slider {...settings} className="bg-white">
-          {item.product_img.map((imgItem: string, index: number) => (
+          {item.product_img?.map((imgItem: string, index: number) => (
             <div
               key={index}
               className="w-full h-[400px] overflow-hidden relative bg-[#FAFAFA]"
