@@ -1,9 +1,9 @@
 import React from "react";
 
-interface CustomButtonProps {
+export interface CustomButtonProps {
   text: string;
-  icon: React.ReactNode; // or whatever type is used for icons
-  handlerClick: () => void;
+  icon?: React.ReactNode;
+  handlerClick?: () => void;
 }
 const ButtonComp: React.FC<CustomButtonProps> = ({ text, icon, handlerClick }) => {
 

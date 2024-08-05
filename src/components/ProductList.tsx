@@ -36,7 +36,6 @@ const ProductList: React.FC<ProductListProps> = ({ products, children }) => {
           {categoriesArr.map((item: CategoryType) =>
             item.products.map((data: ProductType) => (
               <ProductCard
-                loading
                 key={data.product_id}
                 items={data}
                 onCardClick={() => handlerClickFunc(data.product_id)}
