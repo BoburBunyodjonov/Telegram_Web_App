@@ -18,6 +18,7 @@ import {RootState}  from "../store/store";
 // Define the props interface
 interface ProductCardProps {
   product_img: string[];
+  key: number;
   discount_percent: number;
   price: number;
   title: string;
@@ -145,11 +146,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </p>
         </div>
       </div>
-      
+
       <div className="p-1.5">
         {addedToCart ? (
           <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
-            <button onClick={handleDecrease}
+            <button
+              onClick={handleDecrease}
               type="button"
               className="active:bg-gradient-to-r flex-grow flex text-telegram-black items-center justify-start px-2 py-1 active:from-[#00000010]"
             >
@@ -163,11 +165,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
               type="text"
               value={quantity}
             />
-            <button onClick={handleIncrease}
+            <button
+              onClick={handleIncrease}
               type="button"
               className="flex-grow items-center flex justify-end  px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
             >
-               <AddIcon />
+              <AddIcon />
             </button>
           </div>
         ) : (

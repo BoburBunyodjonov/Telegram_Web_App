@@ -5,7 +5,7 @@ import { categoriesArr } from "../../../constants/Categories.constants";
 import { ProductCard } from "../../../components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-interface ProductType {
+export interface ProductType {
   product_id: number;
   title: string;
   price: number;
@@ -21,9 +21,10 @@ interface ProductType {
   pre_orders: boolean;
   bestsellers: boolean;
   category: string;
+  quantity: number;
 }
 
-interface CategoryType {
+export interface CategoryType {
   id: number;
   category_type: string;
   name: string;
@@ -36,10 +37,12 @@ const SingleCategorie: React.FC = () => {
   const [category, setCategory] = useState<CategoryType | undefined>(undefined);
 
   useEffect(() => {
-    const selectedCategory = categoriesArr.find(
-      (category) => category.id === parseInt(id)
-    );
-    setCategory(selectedCategory);
+    if (id) {
+      const selectedCategory = categoriesArr.find(
+        (category) => category.id === parseInt(id, 10)
+      );
+      setCategory(selectedCategory);
+    }
   }, [id]);
 
   if (!category) {
@@ -51,15 +54,10 @@ const SingleCategorie: React.FC = () => {
     (product) => product.category === category.category_type
   );
 
-  // Placeholder handlers and items object
   const handleCardClick = () => {
     // Add logic for card click if needed
   };
 
-  const items = {
-    product_id: 0, // Replace with actual product ID if needed
-    quantity: 1, // Replace with actual quantity if needed
-  };
 
   return (
     <>
@@ -100,7 +98,10 @@ const SingleCategorie: React.FC = () => {
                   currency={product.currency}
                   onCardClick={handleCardClick}
                   product_id={product.product_id.toString()}
-                  items={items}
+                  items={{
+                    product_id: product.product_id.toString(), 
+                    quantity: 1
+                  }}
                 />
               ))
             ) : (

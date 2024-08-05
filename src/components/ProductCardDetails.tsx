@@ -13,12 +13,12 @@ import ProductList from "./ProductList";
 // React Router Dom
 import { useParams } from "react-router-dom";
 // Data
-import { categoriesArr,  ProductType } from "../constants/Categories.constants";
+import { categoriesArr, ProductType } from "../constants/Categories.constants";
 // Currency
 import currency_value from "currency.js";
 import ComeBack from "./ComeBack";
 
-const ProductCardDetails = () => {
+const ProductCardDetails: React.FC = () => {
   
   const { id } = useParams<{ id: string }>();
   const [item, setItem] = useState<ProductType | null>(null);

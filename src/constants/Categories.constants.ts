@@ -23,26 +23,27 @@ export interface ProductProps {
     discount_percent: number;
   }
   
+  
 
 
-export type  ProductType = {
-    product_id?: number;
-    title?: string;
-    price?: number;
-    sale?: boolean;
-    currency?: string;
-    discount?: boolean;
-    discount_percent?: number;
-    size?: (string | number)[];
-    color?: string[];
-    gender?: string;
-    description?: string;
-    product_img?: string[];
-    pre_orders?: boolean;
-    bestsellers?: boolean;
-    category?: string;
-    quantity?: number;
-}
+export interface ProductType {
+    product_id: number;
+    title: string;
+    price: number;
+    sale: boolean;
+    currency: string;
+    discount: boolean;
+    discount_percent: number;
+    size: number[];
+    color: string[];
+    gender: string;
+    description: string;
+    product_img: string[];
+    pre_orders: boolean;
+    bestsellers: boolean;
+    category: string;
+    quantity: number;
+  }
 
 
 export interface CategoriesType {
