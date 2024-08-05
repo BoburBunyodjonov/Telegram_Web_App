@@ -8,7 +8,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 const CategoriesAll: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleListItemClick = (id) => {
+  const handleListItemClick = (id:number) => {
     const clickedItem = categoriesArr.find((item) => item.id === id);
     if (clickedItem) {
       navigate(`/singleCategorie/${id}`);

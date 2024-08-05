@@ -7,6 +7,8 @@ interface categoriesArrType {
     products?: ProductType[];
 }
 
+
+
 interface ProductType {
     product_id?: number;
     title?: string;
@@ -25,6 +27,13 @@ interface ProductType {
     category?: string;
     quantity?: number;
 }
+
+export interface CategoriesType {
+    id: number;
+    name: string;
+    img: string;
+  }
+  
 
 
 export const categoriesArr: categoriesArrType[] = [

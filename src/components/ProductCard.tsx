@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import ButtonComp from "./Button";
 
 // Icons
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
@@ -17,15 +15,31 @@ import { add, increaseQuantity, decreaseQuantity } from "../reducers/CartSlice";
 import { openModal } from "../reducers/ModalSlice";
 import { RootState } from "../store/store";
 
-const ProductCard = ({
+// Define the props interface
+interface ProductCardProps {
+  product_img: string[];
+  discount_percent: number;
+  price: number;
+  title: string;
+  currency: string;
+  onCardClick: () => void;
+  product_id: string;
+  items: {
+    product_id: string;
+    quantity: number;
+    // Add other properties if needed
+  };
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
   product_img,
   discount_percent,
   price,
   title,
   currency,
-  onCardClick,
   product_id,
   items,
+  onCardClick,
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart);
@@ -45,7 +59,7 @@ const ProductCard = ({
     }
   }, [cartItems, items.product_id]);
 
-  const calculateDiscountedPrice = (price, discountPercent) => {
+  const calculateDiscountedPrice = (price: number, discountPercent: number) => {
     return price - price * (discountPercent / 100);
   };
 
@@ -134,7 +148,6 @@ const ProductCard = ({
       
       <div className="p-1.5">
         {addedToCart ? (
-          
           <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
             <button onClick={handleDecrease}
               type="button"
@@ -157,7 +170,6 @@ const ProductCard = ({
                <AddIcon />
             </button>
           </div>
-        
         ) : (
           <ButtonComp
             handlerClick={handleAddToCart}
@@ -168,17 +180,6 @@ const ProductCard = ({
       </div>
     </div>
   );
-};
-
-ProductCard.propTypes = {
-  product_img: PropTypes.array.isRequired,
-  discount_percent: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  onCardClick: PropTypes.func.isRequired,
-  items: PropTypes.object.isRequired,
-  product_id: PropTypes.string.isRequired,
 };
 
 export default ProductCard;

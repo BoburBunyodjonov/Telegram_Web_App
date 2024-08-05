@@ -31,6 +31,8 @@ const CartCard = (props) => {
     dispatch(decreaseQuantity(product_id));
   };
 
+const imgSrc = product_img?.[1] || 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'; 
+
   return (
     <div
       key={index}
@@ -41,14 +43,14 @@ const CartCard = (props) => {
           <div className="rounded-xl bg-telegram-secondary-white min-w-[64px] h-100 ">
             <div className="relative">
               <img
-                alt="Minipicco Кеды Heather"
+                alt="Product"
                 loading="lazy"
                 width="64"
                 height="64"
                 decoding="async"
                 data-nimg="1"
                 className="mx-auto"
-                src={product_img[0]}
+                src={imgSrc}
                 style={{ color: "transparent" }}
               />
               <div className="absolute top-0 right-0 bg-gray-500 text-white rounded-full h-6 w-6 flex items-center justify-center">

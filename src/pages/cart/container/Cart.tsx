@@ -1,19 +1,15 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import CartCard from "../components/CartCard";
 import { Button } from "../../../components";
 import DeleteIcon from "@mui/icons-material/Delete";
 // import { remove } from "../../../reducers/CartSlice";
-import { RootState } from "../../../store";
 import currency_value from "currency.js";
 
 const Cart: React.FC = () => {
-  const dispatch = useDispatch();
   const cartitems = useSelector((state: RootState) => state.cart);
 
-  const handleRemoveItem = (id: number) => {
-    dispatch(remove(id));
-  };
+
 
   const calculateTotalPrice = (): string => {
     let totalPrice = 0;
@@ -43,10 +39,14 @@ const Cart: React.FC = () => {
         <h2 className="text-2xl font-semibold text-telegram-black">Savat</h2>
         <DeleteIcon />
       </div>
+      <div className="h-[74vh] overflow-scroll bg-white">
+
       {cartitems.map((data, index) => (
         <CartCard key={data.product_id} index={index} {...data} />
       ))}
-      <div className="bg-white grid grid-cols-2 items-center justify-between pb-5 pt-2 px-3 z-20 bottom-0 w-full bottom-navbarHeight shadow-top">
+      </div>
+      
+      <div className="bg-white grid grid-cols-2 fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16 w-[500px]  mx-auto bottom-navbarHeight shadow-top">
         <div>
           <p className="font-semibold text-xl">
             {calculateTotalPrice() + " " + "UZS"}

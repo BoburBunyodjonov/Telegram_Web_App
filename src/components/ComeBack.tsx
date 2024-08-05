@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { NavLink } from "react-router-dom";
 
-const ComeBack = (props) => {
-    const {text} = props;
+interface ComeBackProps {
+  text: string;
+}
+
+const ComeBack: React.FC<ComeBackProps> = (props) => {
+  const { text } = props;
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -29,7 +33,7 @@ const ComeBack = (props) => {
   return (
     <div
       className={`${
-        isVisible && "bg-white"
+        isVisible ? "bg-white" : ""
       } p-2 py-4 w-full max-w-[31rem] mx-auto flex justify-between items-center fixed top-0 left-1/2 transform -translate-x-1/2 z-50`}
     >
       <NavLink to="/">
@@ -40,9 +44,7 @@ const ComeBack = (props) => {
       </NavLink>
       {isVisible && (
         <div className="w-full px-3 py-2 bg-white" onClick={scrollToTop}>
-          <p>
-            {text}
-          </p>
+          <p>{text}</p>
         </div>
       )}
     </div>

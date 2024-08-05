@@ -51,6 +51,16 @@ const SingleCategorie: React.FC = () => {
     (product) => product.category === category.category_type
   );
 
+  // Placeholder handlers and items object
+  const handleCardClick = () => {
+    // Add logic for card click if needed
+  };
+
+  const items = {
+    product_id: 0, // Replace with actual product ID if needed
+    quantity: 1, // Replace with actual quantity if needed
+  };
+
   return (
     <>
       <div className="">
@@ -78,10 +88,20 @@ const SingleCategorie: React.FC = () => {
           </div>
         </div>
         <div className="bg-white p-4">
-          <div className="gap-2 mt-4 grid  grid-cols-2">
+          <div className="gap-2 mt-4 grid grid-cols-2">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
-                <ProductCard key={product.product_id} {...product} />
+                <ProductCard
+                  key={product.product_id}
+                  product_img={product.product_img}
+                  discount_percent={product.discount_percent}
+                  price={product.price}
+                  title={product.title}
+                  currency={product.currency}
+                  onCardClick={handleCardClick}
+                  product_id={product.product_id.toString()}
+                  items={items}
+                />
               ))
             ) : (
               <Typography>No products found in this category.</Typography>
