@@ -11,7 +11,12 @@ interface ProductListProps {
     products: ProductType[];
   }
 
-
+interface CategoriesCardProps {
+    handlerClick: () => void;
+    item: CategoryType;
+    text: string;
+    image: string;
+  }
 
 
 interface ProductType {

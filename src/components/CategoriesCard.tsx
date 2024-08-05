@@ -1,9 +1,11 @@
 import React from "react";
+import { CategoryType } from "../constants/Categories.constants";
 
 interface CategoriesCardProps {
+  handlerClick: () => void;
+  item: CategoryType; 
   text: string;
   image: string;
-  handlerClick: () => void;
 }
 
 const CategoriesCard: React.FC<CategoriesCardProps> = (props) => {

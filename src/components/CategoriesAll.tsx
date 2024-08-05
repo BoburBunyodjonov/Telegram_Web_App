@@ -1,14 +1,17 @@
 import React from "react";
 import CategoriesCard from "./CategoriesCard";
-import { categoriesArr, CategoriesType } from "../constants/Categories.constants"; // Ensure correct import path
+import { categoriesArr, CategoryType } from "../constants/Categories.constants"; // Ensure correct import path
 import { NavLink, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
 
 const CategoriesAll: React.FC = () => {
   const navigate = useNavigate();
 
   const handleListItemClick = (id: number) => {
-    const clickedItem = categoriesArr.find((item) => item.id === id);
+    const clickedItem = categoriesArr.find(
+      (item: CategoryType) => item.id === id
+    );
     if (clickedItem) {
       navigate(`/singleCategorie/${id}`);
     } else {
