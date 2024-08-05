@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CartCard from "../components/CartCard";
 import { Button } from "../../../components";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { remove } from "../../../reducers/CartSlice";
+// import { remove } from "../../../reducers/CartSlice";
 import { RootState } from "../../../store";
 import currency_value from "currency.js";
 

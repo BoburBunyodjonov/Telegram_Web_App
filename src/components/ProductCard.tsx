@@ -26,15 +26,23 @@ const ProductCard = ({
   onCardClick,
   product_id,
   items,
-  quantity
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
-    const isProductInCart = cartItems.some(item => item.product_id === items.product_id);
-    setAddedToCart(isProductInCart);
+    const productInCart = cartItems.find(
+      (item) => item.product_id === items.product_id
+    );
+    if (productInCart) {
+      setAddedToCart(true);
+      setQuantity(productInCart.quantity);
+    } else {
+      setAddedToCart(false);
+      setQuantity(0);
+    }
   }, [cartItems, items.product_id]);
 
   const calculateDiscountedPrice = (price, discountPercent) => {
@@ -59,17 +67,20 @@ const ProductCard = ({
       dispatch(openModal());
       dispatch(add(items));
       setAddedToCart(true);
+      setQuantity(1);
     }
   };
 
-  // increase quantity
   const handleIncrease = () => {
     dispatch(increaseQuantity(product_id));
+    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  // decrease quantity
   const handleDecrease = () => {
-    dispatch(decreaseQuantity(product_id));
+    if (quantity > 1) {
+      dispatch(decreaseQuantity(product_id));
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
   };
 
   return (
@@ -120,32 +131,33 @@ const ProductCard = ({
           </p>
         </div>
       </div>
+      
       <div className="p-1.5">
         {addedToCart ? (
-          <div className="w-28">
-            <div className="items-center max-w-[110px] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
-              <button
-                type="button"
-                className="active:bg-gradient-to-r active:from-[#00000010] px-2 py-2 text-telegram-black"
-                onClick={handleDecrease}
-              >
-                <RemoveIcon />
-              </button>
-              <input
-                className="w-10 text-center py-2 px-0 text-telegram-black outline-none bg-transparent"
-                type="number"
-                value={quantity}
-                readOnly
-              />
-              <button
-                type="button"
-                className="active:bg-gradient-to-l active:from-[#00000010] px-2 py-2 active:shadow-left text-telegram-black"
-                onClick={handleIncrease}
-              >
-                <AddIcon />
-              </button>
-            </div>
+          
+          <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
+            <button onClick={handleDecrease}
+              type="button"
+              className="active:bg-gradient-to-r flex-grow flex text-telegram-black items-center justify-start px-2 py-1 active:from-[#00000010]"
+            >
+              <RemoveIcon />
+            </button>
+            <input
+              min="0"
+              pattern="[0-9]*"
+              max="35"
+              className="w-10 bg-[#F8F8F8] flex-grow text-center py-2 px-0 text-telegram-black bg-telegram-secondary-white outline-none"
+              type="text"
+              value={quantity}
+            />
+            <button onClick={handleIncrease}
+              type="button"
+              className="flex-grow items-center flex justify-end  px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
+            >
+               <AddIcon />
+            </button>
           </div>
+        
         ) : (
           <ButtonComp
             handlerClick={handleAddToCart}
@@ -167,7 +179,6 @@ ProductCard.propTypes = {
   onCardClick: PropTypes.func.isRequired,
   items: PropTypes.object.isRequired,
   product_id: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired,
 };
 
 export default ProductCard;
