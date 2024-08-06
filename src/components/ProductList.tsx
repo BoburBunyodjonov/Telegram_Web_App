@@ -30,7 +30,7 @@ const ProductList: React.FC<ProductListProps> = ({  children }) => {
 
   return (
     <>
-      <div className="bg-white rounded-2xl mt-3 p-4">
+      <div className="bg-white rounded-2xl mt-3 p-4 ">
         {children}
         <div className="gap-2 mt-4 grid  grid-cols-2">
           {categoriesArr.map((item: CategoryType) =>

@@ -1,7 +1,6 @@
 import React from "react";
-import {useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CartCard from "../components/CartCard";
-import { Button } from "../../../components";
 import DeleteIcon from "@mui/icons-material/Delete";
 // import { remove } from "../../../reducers/CartSlice";
 import currency_value from "currency.js";
@@ -9,11 +8,11 @@ import { RootState } from "../../../store/store";
 
 interface ProductType {
   product_id: number;
-  price: number; 
+  price: number;
   discount_percent: number;
   quantity: number;
-  title: string; 
-  product_img: string[]; 
+  title: string;
+  product_img: string[];
   currency: string;
 }
 
@@ -23,7 +22,10 @@ const Cart: React.FC = () => {
   const calculateTotalPrice = (): string => {
     let totalPrice = 0;
     cartitems.forEach((product: ProductType) => {
-      const calculateDiscountedPrice = (price: number, discountPercent: number) => {
+      const calculateDiscountedPrice = (
+        price: number,
+        discountPercent: number
+      ) => {
         return price - price * (discountPercent / 100);
       };
       const discountedPrice = calculateDiscountedPrice(
@@ -49,20 +51,23 @@ const Cart: React.FC = () => {
         <DeleteIcon />
       </div>
       <div className="h-[74vh] overflow-scroll bg-white">
-
-      {cartitems.map((data: ProductType, index: number) => (
-        <CartCard key={data.product_id} index={index} {...data} />
-      ))}
+        {cartitems.map((data: ProductType, index: number) => (
+          <CartCard key={data.product_id} index={index} {...data} />
+        ))}
       </div>
-      
-      <div className="bg-white grid grid-cols-2 fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16 w-[500px]  mx-auto bottom-navbarHeight shadow-top">
+
+      <div className="md:w-[500px] container bg-white flex fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16   mx-auto bottom-navbarHeight shadow-top">
         <div>
           <p className="font-semibold text-xl">
             {calculateTotalPrice() + " " + "UZS"}
           </p>
           <p className="text-telegram-hint">{cartitems.length} mahsulotlar</p>
         </div>
-        <Button text="Rasmiylashtirish" />
+        <button
+          className="text-sm font-semibold  px-3 py-3 bg-[#309156] rounded-xl shadow-sm mt-auto flex items-center justify-center gap-1 bg-telegram-primary text-white"
+        >
+          Rasmiylashtirish
+        </button>
       </div>
     </>
   );
