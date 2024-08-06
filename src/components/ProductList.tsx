@@ -8,7 +8,7 @@ interface ProductListProps {
   children?: React.ReactNode;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products, children }) => {
+const ProductList: React.FC<ProductListProps> = ({  children }) => {
   const navigate = useNavigate();
 
   const handlerClickFunc = (id: number) => {

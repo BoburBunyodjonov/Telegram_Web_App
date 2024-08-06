@@ -9,7 +9,7 @@ import { RootState } from "../../../store/store";
 
 interface ProductType {
   product_id: number;
-  price: string; 
+  price: number; 
   discount_percent: number;
   quantity: number;
   title: string; 
@@ -27,7 +27,7 @@ const Cart: React.FC = () => {
         return price - price * (discountPercent / 100);
       };
       const discountedPrice = calculateDiscountedPrice(
-        parseFloat(product.price),
+        product.price,
         product.discount_percent
       );
 

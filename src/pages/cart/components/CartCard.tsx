@@ -9,7 +9,7 @@ import { increaseQuantity, decreaseQuantity } from "../../../reducers/CartSlice"
 
 interface CartCardProps {
   product_id?: number;
-  price?: string;
+  price?: number;
   discount_percent?: number;
   quantity?: number;
   title?: string;
@@ -31,7 +31,7 @@ const CartCard: React.FC<CartCardProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
+  const calculateDiscountedPrice = (price: number = 0, discountPercent: number = 0): number => {
     return price - price * (discountPercent / 100);
   };
 
