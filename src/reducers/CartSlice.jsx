@@ -30,12 +30,17 @@ export const cartSlice = createSlice({
       saveCartToLocalStorage(state);
     },
     decreaseQuantity(state, action) {
-      const item = state.find(item => item.product_id === action.payload);
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
+      const itemIndex = state.findIndex(item => item.product_id === action.payload);
+      if (itemIndex !== -1 && state[itemIndex].quantity > 0) {
+        state[itemIndex].quantity -= 1;
+        if (state[itemIndex].quantity === 0) {
+          localStorage.removeItem(state[itemIndex].product_id);
+          state.splice(itemIndex, 1);
+        }
       }
       saveCartToLocalStorage(state);
-    },
+    }
+    
   }
 });
 

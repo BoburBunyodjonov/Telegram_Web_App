@@ -12,7 +12,6 @@ import currency_value from "currency.js";
 
 import { useDispatch, useSelector } from "react-redux";
 import { add, increaseQuantity, decreaseQuantity } from "../reducers/CartSlice";
-import { openModal } from "../reducers/ModalSlice";
 import {RootState}  from "../store/store";
 
 // Define the props interface
@@ -78,7 +77,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleAddToCart = () => {
     if (!addedToCart) {
-      dispatch(openModal());
       dispatch(add(items));
       setAddedToCart(true);
       setQuantity(1);
@@ -94,6 +92,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     if (quantity > 1) {
       dispatch(decreaseQuantity(product_id));
       setQuantity((prevQuantity) => prevQuantity - 1);
+    } else if (quantity === 1) {
+      dispatch(decreaseQuantity(product_id));
+      setAddedToCart(false);
     }
   };
 
