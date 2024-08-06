@@ -1,3 +1,21 @@
+.slick-arrow::before{
+  color: black;
+}
+.slick-prev{
+  position: absolute;
+  left: 20px;
+  top: 100px;
+  z-index: 100;
+  display: none !important;
+
+}
+.slick-next{
+  position: absolute;
+  right: 200px;
+  top: 100px;
+  z-index: 100;
+  display: none !important;
+}
 
 .modal-container {
     position: fixed;
