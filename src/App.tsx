@@ -12,21 +12,24 @@ import './App.css'
 import Layout from "./layout/Layout";
 
 // Pages
-import { Cart, Categories, Home, Profile, SingleCategorie } from "./pages";
+import { Cart, Categories, Checkout, Home, Profile, SingleCategorie } from "./pages";
 
 import "./App.css";
 import { ProductCardDetails } from "./components";
 
 import StoreProvider from "./store/StoreProvider";
+import SearchPage from "./pages/search/container/SearchPage";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
+      <Route path="/checkout" element={<Checkout/>} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/search" element={<SearchPage/>} />
         <Route
           path="/ProductCardDetails/:id"
           element={<ProductCardDetails />}

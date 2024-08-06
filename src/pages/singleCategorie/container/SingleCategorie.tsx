@@ -62,7 +62,7 @@ const SingleCategorie: React.FC = () => {
   return (
     <>
       <div className="">
-        <div className="w-full bg-white p-3 flex">
+        <div className="w-full bg-white p-3 flex items-center sticky top-0 z-[100]">
           <NavLink
             to="/"
             className="bg-telegram-secondary-white text-telegram-black  text-xl  rounded-xl flex items-center"

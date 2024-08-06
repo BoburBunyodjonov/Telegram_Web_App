@@ -37,7 +37,6 @@ const CategoriesAll: React.FC = () => {
         </div>
         <div className="gap-4 mb-4 grid grid-cols-2">
           {categoriesArr.map((item) => {
-            // Ensure item.id, item.name, and item.img are defined and valid
             if (item.id !== undefined && item.name !== undefined && item.img !== undefined) {
               return (
                 <CategoriesCard
@@ -49,7 +48,6 @@ const CategoriesAll: React.FC = () => {
                 />
               );
             }
-            // Optionally handle the case where item.id, item.name, or item.img is undefined
             return null;
           })}
         </div>

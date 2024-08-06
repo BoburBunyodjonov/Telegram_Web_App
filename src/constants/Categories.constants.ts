@@ -127,7 +127,7 @@ export const categoriesArr: CategoryType[] = [
             },
             {
                 product_id:4,
-                title: "Minipicco Кеды Heather",
+                title: "Bob Кеды Heather",
                 price: 296100,
                 sale: true,
                 currency: "UZS",

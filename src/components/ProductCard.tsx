@@ -39,6 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product_id,
   items,
   onCardClick,
+  handlerClickFunc
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart);

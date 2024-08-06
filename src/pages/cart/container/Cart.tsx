@@ -34,14 +34,14 @@ const Cart: React.FC = () => {
       );
 
       const amount = currency_value(discountedPrice * product.quantity, {
-        precision: 10,
+        precision: 0,
         symbol: "",
         separator: " ",
       }).value;
 
       totalPrice += amount;
     });
-    return totalPrice.toFixed(3);
+    return totalPrice.toString();
   };
 
   return (

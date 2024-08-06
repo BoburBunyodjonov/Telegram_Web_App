@@ -1,11 +1,9 @@
-// Import necessary types
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 
-// Define the props interface
 interface StoreProviderProps {
-    children: ReactNode; // `ReactNode` covers all possible children types
+    children: ReactNode; 
 }
 
 const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
