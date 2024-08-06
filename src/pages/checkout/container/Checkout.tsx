@@ -10,9 +10,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 import Cash from "../images/cash.svg";
 import ClickPay from "../images/click.webp";
-import { Label, LabelImportant } from "@mui/icons-material";
 import { Radio, RadioGroup } from "@mui/material";
-import value from "../../../declarations";
 
 const Checkout = () => {
   return (

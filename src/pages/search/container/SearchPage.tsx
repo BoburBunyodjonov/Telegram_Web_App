@@ -44,7 +44,7 @@ const SearchPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInterval(() => {
       dispatch(setSearchQuery(e.target.value));
     }, 3000);
@@ -68,7 +68,7 @@ const SearchPage: React.FC = () => {
         <input
           className="w-full bg-inherit p-2 outline-none"
           placeholder="Искать товары"
-          onKeyDown={handleSearchChange}
+          onChange={handleSearchChange}
         />
       </form>
       {searchQuery && (
