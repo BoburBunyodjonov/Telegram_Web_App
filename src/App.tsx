@@ -12,7 +12,7 @@ import './App.css'
 import Layout from "./layout/Layout";
 
 // Pages
-import { Cart, Categories, Checkout, Home, Profile, SingleCategorie } from "./pages";
+import { Cart, Categories, Checkout, Home, Profile, ProfileInfo, SingleCategorie } from "./pages";
 
 import "./App.css";
 import { ProductCardDetails } from "./components";
@@ -28,7 +28,10 @@ const routes = createBrowserRouter(
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<Profile />}>
+          <Route path="/profile/info" element={<ProfileInfo />} />
+        </Route>
+        <Route path="/info" element={<ProfileInfo />} />
         <Route path="/search" element={<SearchPage/>} />
         <Route
           path="/ProductCardDetails/:id"

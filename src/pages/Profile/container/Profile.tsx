@@ -7,6 +7,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import englishFlag from "../../../assets/flag.png";
 import { Avatar } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   return (
@@ -39,17 +40,19 @@ const Profile = () => {
               Pre-orders
             </Typography>
           </div>
-          <div className="bg-[#F8F8F8] rounded-xl p-3">
-            <AccountCircleIcon className="text-[rgb(156_156_156)]" />
-            <Typography
-              fontSize={16}
-              variant="h6"
-              fontWeight={700}
-              color="initial"
-            >
-              My profile
-            </Typography>
-          </div>
+          <Link to="/info">
+            <div className="bg-[#F8F8F8] rounded-xl p-3">
+              <AccountCircleIcon className="text-[rgb(156_156_156)]" />
+              <Typography
+                fontSize={16}
+                variant="h6"
+                fontWeight={700}
+                color="initial"
+              >
+                My profile
+              </Typography>
+            </div>
+          </Link>
           <div className="bg-[#F8F8F8] rounded-xl p-3">
             <LocationOnIcon className="text-[rgb(156_156_156)]" />
             <Typography
