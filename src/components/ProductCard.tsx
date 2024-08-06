@@ -24,11 +24,10 @@ interface ProductCardProps {
   title: string;
   currency: string;
   onCardClick: () => void;
-  product_id: string;
+  product_id: number;
   items: {
-    product_id: string;
+    product_id: number;
     quantity: number;
-    // Add other properties if needed
   };
 }
 
@@ -41,6 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product_id,
   items,
   onCardClick,
+  key,
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart);
@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   useEffect(() => {
     const productInCart = cartItems.find(
-      (item: { product_id: string }) => item.product_id === items.product_id
+      (item: { product_id: number }) => item.product_id === items.product_id
     );
     if (productInCart) {
       setAddedToCart(true);

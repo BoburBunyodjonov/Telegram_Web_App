@@ -8,7 +8,7 @@ import { increaseQuantity, decreaseQuantity } from "../../../reducers/CartSlice"
 
 
 interface CartCardProps {
-  product_id?: string;
+  product_id?: number;
   price?: string;
   discount_percent?: number;
   quantity?: number;

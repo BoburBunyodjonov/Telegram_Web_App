@@ -97,9 +97,9 @@ const SingleCategorie: React.FC = () => {
                   title={product.title}
                   currency={product.currency}
                   onCardClick={handleCardClick}
-                  product_id={product.product_id.toString()}
+                  product_id={product.product_id}
                   items={{
-                    product_id: product.product_id.toString(), 
+                    product_id: product.product_id, 
                     quantity: 1
                   }}
                 />
