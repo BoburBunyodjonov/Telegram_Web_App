@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CategoriesCard from "./CategoriesCard";
 import { categoriesArr, CategoryType } from "../constants/Categories.constants"; // Ensure correct import path
 import { NavLink, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-
+import { Skeleton } from "@mui/material";
 
 const CategoriesAll: React.FC = () => {
+
+  const [loading, setLoading] = useState(true);
+
+
   const navigate = useNavigate();
 
   const handleListItemClick = (id: number) => {
@@ -19,6 +23,12 @@ const CategoriesAll: React.FC = () => {
     }
     console.log(`Selected item ID: ${id}`);
   };
+
+  useEffect(() => {
+    setInterval(() => {
+      setLoading(false);
+    }, 1000);
+  });
 
   return (
     <>
@@ -37,8 +47,14 @@ const CategoriesAll: React.FC = () => {
         </div>
         <div className="gap-4 mb-4 grid grid-cols-2">
           {categoriesArr.map((item) => {
-            if (item.id !== undefined && item.name !== undefined && item.img !== undefined) {
-              return (
+            if (
+              item.id !== undefined &&
+              item.name !== undefined &&
+              item.img !== undefined
+            ) {
+              return loading ? (
+                <Skeleton sx={{ height: 190 }} animation="wave" variant="rounded" />
+              ) : (
                 <CategoriesCard
                   handlerClick={() => handleListItemClick(item.id)}
                   key={item.id}

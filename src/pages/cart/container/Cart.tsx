@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CartCard from "../components/CartCard";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import { remove } from "../../../reducers/CartSlice";
 import currency_value from "currency.js";
 import { RootState } from "../../../store/store";
 
@@ -18,6 +18,17 @@ interface ProductType {
 
 const Cart: React.FC = () => {
   const cartitems = useSelector((state: RootState) => state.cart);
+  const [localStorageCartItems, setLocalStorageCartItems] = useState<
+    ProductType[]
+  >([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cart");
+    if (storedCartItems) {
+      setLocalStorageCartItems(JSON.parse(storedCartItems));
+    }
+  }, [cartitems]);
 
   const calculateTotalPrice = (): string => {
     let totalPrice = 0;
@@ -44,30 +55,41 @@ const Cart: React.FC = () => {
     return totalPrice.toString();
   };
 
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
+
   return (
     <>
-      <div className="bg-white flex p-3 justify-between items-center">
-        <h2 className="text-2xl font-semibold text-telegram-black">Savat</h2>
-        <DeleteIcon />
-      </div>
-      <div className="h-[74vh] overflow-scroll bg-white">
-        {cartitems.map((data: ProductType, index: number) => (
-          <CartCard key={data.product_id} index={index} {...data} />
-        ))}
-      </div>
-
-      <div className="md:w-[500px] container bg-white flex fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16   mx-auto bottom-navbarHeight shadow-top">
-        <div>
-          <p className="font-semibold text-xl">
-            {calculateTotalPrice() + " " + "UZS"}
-          </p>
-          <p className="text-telegram-hint">{cartitems.length} mahsulotlar</p>
+      <div className="h-full bg-white">
+        <div className="bg-white flex p-3 justify-between items-center border">
+          <h2 className="text-2xl font-semibold text-telegram-black">Savat</h2>
+          <DeleteIcon />
         </div>
-        <button
-          className="text-sm font-semibold  px-3 py-3 bg-[#309156] rounded-xl shadow-sm mt-auto flex items-center justify-center gap-1 bg-telegram-primary text-white"
-        >
-          Rasmiylashtirish
-        </button>
+        <div className="h-[74vh] overflow-scroll bg-white">
+          {cartitems.map((data: ProductType, index: number) => (
+            <CartCard key={data.product_id} index={index} {...data} />
+          ))}
+        </div>
+
+        {localStorageCartItems.length > 0 && (
+          <div className="md:w-[500px] container bg-white flex fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16 mx-auto bottom-navbarHeight shadow-top">
+            <div>
+              <p className="font-semibold text-xl">
+                {calculateTotalPrice() + " " + "UZS"}
+              </p>
+              <p className="text-telegram-hint">
+                {cartitems.length} mahsulotlar
+              </p>
+            </div>
+            <button
+              className="text-sm font-semibold px-3 py-3 bg-[#309156] rounded-xl shadow-sm mt-auto flex items-center justify-center gap-1 bg-telegram-primary text-white"
+              onClick={handleCheckout}
+            >
+              Rasmiylashtirish
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

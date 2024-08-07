@@ -7,7 +7,8 @@ import Banner1 from "../images/5iPs5Z1pBnlutCaoRpz6kkQYHQlYV2D2LETsL7nO.png";
 
 // Carusel
 import Slider from "react-slick";
-import { Typography } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 interface SliderSettings {
   dots: boolean,
@@ -21,6 +22,8 @@ interface SliderSettings {
 
 const SliderBanner = () => {
 
+  const [loading, setLoading] = useState(true);
+
     const settings:SliderSettings= {
         dots: false,
         infinite: true,
@@ -30,8 +33,22 @@ const SliderBanner = () => {
         autoplay: true,
       };
 
+
+
+      useEffect(() => {
+        setInterval(() => {
+          setLoading(false);
+        }, 1000);
+      });
+    
+
   return (
-    <Slider {...settings} className="bg-white p-5 rounded-xl">
+      <>
+         {
+      loading ? (
+        <Skeleton sx={{ height: 190 }} animation="wave" variant="rounded" />
+      ) : (
+        <Slider {...settings} className="bg-white p-5 rounded-xl">
        <div className="rounded-xl">
             <div className="rounded-xl relative ">
                 <img className="w-full rounded-xl" src={Banner1}  alt="Banner Img 1" />
@@ -46,6 +63,12 @@ const SliderBanner = () => {
        </div>
        
     </Slider>
+      )
+    }
+
+
+    
+      </>
   )
 }
 

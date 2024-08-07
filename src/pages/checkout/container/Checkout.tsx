@@ -1,29 +1,53 @@
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 import AddressComp from "../components/AddressComp";
-
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-
 import Cash from "../images/cash.svg";
 import ClickPay from "../images/click.webp";
 import { Radio, RadioGroup } from "@mui/material";
 
+
+interface ProductType {
+  name: string; // Make sure this matches the actual properties
+  price: number;
+}
 const Checkout = () => {
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [deliveryMethod, setDeliveryMethod] = useState("free_delivery");
+
+  useEffect(() => {
+    const savedProducts = JSON.parse(localStorage.getItem("cart") || "[]");
+    setProducts(savedProducts);
+  }, []);
+
+  const calculateTotalPrice = (): number => {
+    const productTotal = products.reduce(
+      (acc, product) => acc + product.price,
+      0
+    );
+    const deliveryFee = deliveryMethod === "delivery" ? 20000 : 0;
+    return productTotal + deliveryFee;
+  };
+
+  const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDeliveryMethod(event.target.value);
+  };
+
   return (
     <>
       <div className="md:max-w-[500px] container mx-auto">
         <div className="w-full bg-white py-3 px-1 flex items-center sticky top-0 z-[100]">
           <NavLink
             to="/cart"
-            className="bg-telegram-secondary-white text-telegram-black  text-xl  rounded-xl flex items-center"
+            className="bg-telegram-secondary-white text-telegram-black text-xl rounded-xl flex items-center"
           >
             <ArrowBackIcon className="cursor-pointer text-black ml-3" />
           </NavLink>
-
           <div className="flex flex-col justify-center items-center w-full">
             <Typography
               variant="h6"
@@ -67,13 +91,19 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-          <RadioGroup name="delivery_type" defaultValue="free_delivery">
+          <RadioGroup
+            name="delivery_type"
+            value={deliveryMethod}
+            onChange={handleDeliveryChange}
+          >
             <div className="p-4 bg-white mt-4 rounded-2xl">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-telegram-black py-2 text-xl opacity-100">
                   Выберите способ доставки
                 </h2>
-                <p className="text-telegram-black font-semibold">Бесплатно</p>
+                <p className="text-telegram-black font-semibold">
+                  {deliveryMethod === "delivery" ? "20 000 сум" : "Бесплатно"}
+                </p>
               </div>
               <div className="mt-2 false w-full border-b border-telegram-hint opacity-20"></div>
               <label htmlFor="free_delivery">
@@ -130,6 +160,7 @@ const Checkout = () => {
               </label>
             </div>
           </RadioGroup>
+
           <RadioGroup name="payment_type" defaultValue="cash">
             <div className="p-4 bg-white mt-4 rounded-2xl">
               <h2 className="font-semibold text-telegram-black py-2 text-xl">
@@ -199,19 +230,23 @@ const Checkout = () => {
             </div>
           </RadioGroup>
 
-          <div className="p-4 bg-white mt-4 rounded-2xl">
-            <h2 className="font-semibold text-2xl  text-telegram-black  ">
-              Дата и время доставки
-            </h2>
-            <div className="mt-2 mb-5 w-full border-b border-telegram-hint opacity-20"></div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DateTimePicker"]}>
-                <DemoItem>
-                  <DateTimePicker />
-                </DemoItem>
-              </DemoContainer>
-            </LocalizationProvider>
-          </div>
+          {deliveryMethod === "delivery" ? (
+              <div className="p-4 bg-white mt-4 rounded-2xl">
+              <h2 className="font-semibold text-2xl text-telegram-black">
+                Дата и время доставки
+              </h2>
+              <div className="mt-2 mb-5 w-full border-b border-telegram-hint opacity-20"></div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DateTimePicker"]}>
+                  <DemoItem>
+                    <DateTimePicker />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+          ) : ""}
+
+          
           <div className="p-4 bg-white mt-4 rounded-2xl">
             <h2 className="font-semibold text-telegram-black my-2 text-xl">
               Комментарий к заказу
@@ -265,7 +300,6 @@ const Checkout = () => {
               </button>
             </div>
           </div>
-
           <div className="p-4 bg-white mt-4 rounded-2xl">
             <div className="flex justify-between">
               <h2 className="font-semibold text-telegram-black py-2 text-xl">
@@ -292,31 +326,27 @@ const Checkout = () => {
               <div className="flex items-center justify-between">
                 <p className="text-telegram-hint">Кол-во товаров</p>
                 <p className="text-black">
-                  <span className="font-semibold">9</span>
+                  <span className="font-semibold">{products.length}</span>
                   <span className="text-telegram-hint ml-1">щт</span>
                 </p>
               </div>
-              <div className="flex items-center justify-between">
-                <p className="text-telegram-hint">Подытог</p>
-                <p className="text-black">
-                  <span className="font-semibold">3 312 900</span>
-                  <span className="text-telegram-hint"> сум</span>
-                </p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-telegram-hint">Доставка</p>
-                <p className="text-black">
-                  <span className="font-semibold">0</span>
-                  <span className="text-telegram-hint"> сум</span>
-                </p>
-              </div>
+              {products.map((product, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <p className="text-telegram-hint">{product.name}</p>
+                  <p className="text-black">
+                    <span className="font-semibold">{product.price}</span>
+                    <span className="text-telegram-hint"> сум</span>
+                  </p>
+                </div>
+              ))}
               <div className="flex items-center justify-between mt-1">
                 <p className="font-semibold text-lg">Итого к оплате:</p>
-                <p className="font-semibold text-lg">3 312 900 сум</p>
+                <p className="font-semibold text-lg">
+                  {calculateTotalPrice()} сум
+                </p>
               </div>
             </div>
           </div>
-
           <div className="sticky bottom-0">
             <button
               disabled

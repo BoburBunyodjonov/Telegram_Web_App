@@ -12,7 +12,8 @@ import currency_value from "currency.js";
 
 import { useDispatch, useSelector } from "react-redux";
 import { add, increaseQuantity, decreaseQuantity } from "../reducers/CartSlice";
-import {RootState}  from "../store/store";
+import { RootState } from "../store/store";
+import { Skeleton } from "@mui/material";
 
 // Define the props interface
 interface ProductCardProps {
@@ -44,6 +45,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const cartItems = useSelector((state: RootState) => state.cart);
   const [addedToCart, setAddedToCart] = useState(false);
   const [quantity, setQuantity] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const productInCart = cartItems.find(
@@ -98,89 +100,111 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
+  useEffect(() => {
+    setInterval(() => {
+      setLoading(false);
+    }, 1000);
+  });
+
   return (
     <div className="w-full rounded-xl flex flex-col justify-between relative min-w-[128px]">
-      <div
-        onClick={onCardClick}
-        className="cursor-pointer w-full h-[240px] overflow-hidden relative rounded-xl bg-[#F0F8FF]"
-      >
-        <img
-          alt={title}
-          loading="lazy"
-          decoding="async"
-          className="object-cover object-center"
-          src={product_img[0]}
-          style={{
-            objectFit: "contain",
-            position: "absolute",
-            height: "100%",
-            width: "100%",
-            inset: "0px",
-            color: "transparent",
-          }}
-        />
-        <div className="absolute bottom-1 left-1 flex flex-col items-start space-y-1">
-          <p className="flex items-center text-white bg-red-500 w-fit font-semibold py-[1px] text-center rounded-md px-2 text-[10px] z-10">
-            <LocalFireDepartmentIcon />
-            Распродажа
-          </p>
-        </div>
-      </div>
-      <div className="p-1.5">
-        <div className="flex flex-grow-1 items-start flex-col mt-1">
-          <div className="flex w-full justify-between 2xs:items-center flex-row items-start">
-            <p className="text-md font-semibold text-red-500">
-              {formattedAmount} {currency}
-            </p>
-            <p className="text-white px-2 py-[1px] bg-red-500 inline font-semibold text-center rounded-md text-[10px]">
-              {discount_percent}%
-            </p>
-          </div>
-          <p className="relative font-medium text-xs text-gray-400 before:content-[''] before:absolute before:w-full before:h-[1px] before:bg-gray-400 before:top-1/2">
-            {formattedPrice} {currency}
-          </p>
-        </div>
-        <div className="mb-2">
-          <p className="mt-1 leading-2 line-clamp-1 text-telegram-black text-sm">
-            {title}
-          </p>
-        </div>
-      </div>
-
-      <div className="p-1.5">
-        {addedToCart ? (
-          <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
-            <button
-              onClick={handleDecrease}
-              type="button"
-              className="active:bg-gradient-to-r flex-grow flex text-telegram-black items-center justify-start px-2 py-1 active:from-[#00000010]"
-            >
-              <RemoveIcon />
-            </button>
-            <input
-              min="0"
-              pattern="[0-9]*"
-              max="35"
-              className="w-10 bg-[#F8F8F8] flex-grow text-center py-2 px-0 text-telegram-black bg-telegram-secondary-white outline-none"
-              type="text"
-              value={quantity}
+      {loading ? (
+        <Skeleton sx={{ height: 190 }} animation="wave" variant="rounded" />
+      ) : (
+        <>
+          <div
+            onClick={onCardClick}
+            className="cursor-pointer w-full h-[240px] overflow-hidden relative rounded-xl bg-[#F0F8FF]"
+          >
+            <img
+              alt={title}
+              loading="lazy"
+              decoding="async"
+              className="object-cover object-center"
+              src={product_img[0]}
+              style={{
+                objectFit: "contain",
+                position: "absolute",
+                height: "100%",
+                width: "100%",
+                inset: "0px",
+                color: "transparent",
+              }}
             />
-            <button
-              onClick={handleIncrease}
-              type="button"
-              className="flex-grow items-center flex justify-end  px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
-            >
-              <AddIcon />
-            </button>
+            <div className="absolute bottom-1 left-1 flex flex-col items-start space-y-1">
+              <p className="flex items-center text-white bg-red-500 w-fit font-semibold py-[1px] text-center rounded-md px-2 text-[10px] z-10">
+                <LocalFireDepartmentIcon />
+                Распродажа
+              </p>
+            </div>
           </div>
-        ) : (
-          <ButtonComp
-            handlerClick={handleAddToCart}
-            icon={<ShoppingBagIcon />}
-            text="В корзину"
-          />
-        )}
-      </div>
+        </>
+      )}
+
+      {loading ? (
+        <React.Fragment>
+          <Skeleton animation="wave" height={20} />
+          <Skeleton animation="wave" height={20} />
+          <Skeleton width="100%" height={40} variant="rounded" />
+        </React.Fragment>
+      ) : (
+        <>
+          <div className="p-1.5">
+            <div className="flex flex-grow-1 items-start flex-col mt-1">
+              <div className="flex w-full justify-between 2xs:items-center flex-row items-start">
+                <p className="text-md font-semibold text-red-500">
+                  {formattedAmount} {currency}
+                </p>
+                <p className="text-white px-2 py-[1px] bg-red-500 inline font-semibold text-center rounded-md text-[10px]">
+                  {discount_percent}%
+                </p>
+              </div>
+              <p className="relative font-medium text-xs text-gray-400 before:content-[''] before:absolute before:w-full before:h-[1px] before:bg-gray-400 before:top-1/2">
+                {formattedPrice} {currency}
+              </p>
+            </div>
+            <div className="mb-2">
+              <p className="mt-1 leading-2 line-clamp-1 text-telegram-black text-sm">
+                {title}
+              </p>
+            </div>
+          </div>
+          <div className="p-1.5">
+            {addedToCart ? (
+              <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
+                <button
+                  onClick={handleDecrease}
+                  type="button"
+                  className="active:bg-gradient-to-r flex-grow flex text-telegram-black items-center justify-start px-2 py-1 active:from-[#00000010]"
+                >
+                  <RemoveIcon />
+                </button>
+                <input
+                  min="0"
+                  pattern="[0-9]*"
+                  max="35"
+                  className="w-10 bg-[#F8F8F8] flex-grow text-center py-2 px-0 text-telegram-black bg-telegram-secondary-white outline-none"
+                  type="text"
+                  value={quantity}
+                />
+                <button
+                  onClick={handleIncrease}
+                  type="button"
+                  className="flex-grow items-center flex justify-end  px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
+                >
+                  <AddIcon />
+                </button>
+              </div>
+            ) : (
+              <ButtonComp
+                handlerClick={handleAddToCart}
+                icon={<ShoppingBagIcon />}
+                text="В корзину"
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
