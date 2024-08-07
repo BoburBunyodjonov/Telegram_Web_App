@@ -67,7 +67,7 @@ const Address: React.FC = () => {
       {userLocation && (
         <div className="mt-4">
           <p className="text-telegram-black font-bold">Saved Address:</p>
-          <p className="text-telegram-black">{userAddress || 'Address not available'}</p>
+          <p className="text-telegram-black">Address: {userAddress || 'Address not available'}</p>
           <p className="text-telegram-black">Location: {userLocation[0]}, {userLocation[1]}</p>
         </div>
       )}
