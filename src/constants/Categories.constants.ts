@@ -471,8 +471,8 @@ export const categoriesArr: CategoryType[] = [
     },
     {
         id: 6,
-        category_type: 'Teachnology',
-        name: 'teachnology ',
+        category_type: 'teachnology',
+        name: 'Teachnology ',
         img: "https://humo.fra1.cdn.digitaloceanspaces.com/magicbot/humodemo/categories/MmMlJhKFjCvKl1ksTKPZqsdYqGPF0jGYwro80ah7.png",
         products: [
             {
