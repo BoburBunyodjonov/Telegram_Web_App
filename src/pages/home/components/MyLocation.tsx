@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 // Icons
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ErrorIcon from "@mui/icons-material/Error";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import BottomDrawer from "../../../components/BottomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDrawer } from "../../../reducers/DrawerSlice";
@@ -38,9 +38,9 @@ const MyLocation = () => {
         onClose={handleDrawerToggle}
         title="Мои адреса"
       >
-        <a
+        <Link
           className="flex items-center py-4 px-2 cursor-pointer"
-          href="/humodemo/user/addresses/add-address?callback_pathName=/humodemo/home"
+          to="/map"
         >
           <p className="flex-1 text-telegram-black">Добавить адрес</p>
           <svg
@@ -59,8 +59,8 @@ const MyLocation = () => {
               d="M12 4v16m8-8H4"
             ></path>
           </svg>
-        </a>
-        <button
+        </Link>
+        <button onClick={handleDrawerToggle}
           title="common.close"
           className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
         >
