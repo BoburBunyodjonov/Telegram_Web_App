@@ -152,7 +152,7 @@ const Map: React.FC = () => {
           <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
         </div>
 
-        <div className="p-2 w-[500px] absolute z-30 bottom-3 right-0 left-0 bg-white shadow-top">
+        <div className="p-2 md:w-[500px] container mx-auto absolute z-30 bottom-16 right-0 left-0 bg-transparent shadow-top">
           <button
             type="button"
             onClick={handleSaveLocation}
