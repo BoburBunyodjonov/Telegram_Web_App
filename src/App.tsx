@@ -12,7 +12,7 @@ import './App.css'
 import Layout from "./layout/Layout";
 
 // Pages
-import { Cart, Categories, Checkout, Home, Profile, ProfileInfo, SingleCategorie } from "./pages";
+import { Address, Cart, Categories, Checkout, Home, Map, Profile, ProfileInfo, SingleCategorie } from "./pages";
 
 import "./App.css";
 import { ProductCardDetails } from "./components";
@@ -23,6 +23,7 @@ import SearchPage from "./pages/search/container/SearchPage";
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
+
       <Route path="/checkout" element={<Checkout/>} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
@@ -31,10 +32,12 @@ const routes = createBrowserRouter(
         <Route path="/profile" element={<Profile />}>
           <Route path="/profile/info" element={<ProfileInfo />} />
         </Route>
+        <Route path="/address" element={<Address />} />
+        <Route path="/map" element={<Map />} />
         <Route path="/info" element={<ProfileInfo />} />
         <Route path="/search" element={<SearchPage/>} />
         <Route
-          path="/ProductCardDetails/:id"
+          path="/product-details/:product_id"
           element={<ProductCardDetails />}
         />
         <Route path="/singleCategorie/:id" element={<SingleCategorie />} />

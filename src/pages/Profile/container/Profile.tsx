@@ -13,10 +13,12 @@ const Profile = () => {
   return (
     <>
       <div className="bg-white p-3 h-screen">
-        <div className="p-2 py-4 flex items-center space-x-4">
-          <Avatar>H</Avatar>
-          <KeyboardArrowRightIcon />
-        </div>
+        <Link to="/info">
+          <div className="p-2 py-4 flex items-center space-x-4">
+            <Avatar>H</Avatar>
+            <KeyboardArrowRightIcon />
+          </div>
+        </Link>
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-[#F8F8F8] rounded-xl p-3">
             <ShoppingCartIcon className="text-[rgb(156_156_156)]" />
@@ -53,17 +55,19 @@ const Profile = () => {
               </Typography>
             </div>
           </Link>
-          <div className="bg-[#F8F8F8] rounded-xl p-3">
-            <LocationOnIcon className="text-[rgb(156_156_156)]" />
-            <Typography
-              fontSize={16}
-              variant="h6"
-              fontWeight={700}
-              color="initial"
-            >
-              My address
-            </Typography>
-          </div>
+          <Link to="/address">
+            <div className="bg-[#F8F8F8] rounded-xl p-3">
+              <LocationOnIcon className="text-[rgb(156_156_156)]" />
+              <Typography
+                fontSize={16}
+                variant="h6"
+                fontWeight={700}
+                color="initial"
+              >
+                My address
+              </Typography>
+            </div>
+          </Link>
         </div>
         <div className="bg-[#F8F8F8] rounded-xl p-3 flex justify-between items-center mt-3">
           <div className="flex items-center space-x-2 justify-between">

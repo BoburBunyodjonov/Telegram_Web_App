@@ -1,27 +1,21 @@
 import { useEffect, useState } from "react";
-
-// MUI
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography } from "@mui/material";
-//Slider
 import Slider from "react-slick";
-//Icons
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ReplyIcon from "@mui/icons-material/Reply";
-
-// Component
 import ProductList from "./ProductList";
-// React Router Dom
 import { useParams } from "react-router-dom";
-// Data
 import { categoriesArr, ProductType } from "../constants/Categories.constants";
-// Currency
 import currency_value from "currency.js";
 import ComeBack from "./ComeBack";
+import { setSelectedSize, selectSelectedSize } from '../reducers/SizeSlice'; // Adjust import according to your file structure
 
 const ProductCardDetails: React.FC = () => {
-  
   const { id } = useParams<{ id: string }>();
   const [item, setItem] = useState<ProductType | null>(null);
+  const selectedSize = useSelector(selectSelectedSize);
+  const dispatch = useDispatch();
 
   interface SliderSettings {
     dots: boolean;
@@ -51,7 +45,7 @@ const ProductCardDetails: React.FC = () => {
 
     for (const category of categoriesArr) {
       if (category.products) {
-        foundItem  = category.products.find(
+        foundItem = category.products.find(
           (product) => product.product_id === parseInt(id)
         );
       }
@@ -71,9 +65,9 @@ const ProductCardDetails: React.FC = () => {
 
   const { price, discount_percent } = item;
 
- const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
-  return price - price * (discountPercent / 100);
-};
+  const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
+    return price - price * (discountPercent / 100);
+  };
 
   const discountedPrice = calculateDiscountedPrice(price, discount_percent);
 
@@ -88,9 +82,13 @@ const ProductCardDetails: React.FC = () => {
     separator: " ",
   }).format();
 
+  const handleSizeClick = (size: number) => {
+    dispatch(setSelectedSize(size));
+  };
+
   return (
     <>
-      <ComeBack text={item.title as string}/>
+      <ComeBack text={item.title as string} />
       <Box>
         <Slider {...settings} className="bg-white">
           {item.product_img?.map((imgItem: string, index: number) => (
@@ -138,13 +136,19 @@ const ProductCardDetails: React.FC = () => {
           </button>
           <p className="font-bold text-sm py-1">Размер:</p>
           <div className="flex flex-wrap gap-2 mt-1 pb-3">
-            <button
-              type="button"
-              className="relative rounded-2xl border flex items-center justify-center 
-                text-sm uppercase font-semibold select-none p-2 z-0 cursor-pointer"
-            >
-              26
-            </button>
+            {item.size?.map((size: number) => (
+              <button
+                key={size}
+                type="button"
+                className={`relative rounded-2xl border flex items-center justify-center 
+                text-sm uppercase font-semibold select-none p-2 z-0 cursor-pointer ${
+                  selectedSize === size ? "bg-[#309156] text-white" : ""
+                }`}
+                onClick={() => handleSizeClick(size)}
+              >
+                {size}
+              </button>
+            ))}
           </div>
           <button
             type="button"
