@@ -59,7 +59,7 @@ const SearchPage: React.FC = () => {
   // };
 
   return (
-    <div className="p-4 bg-white h-full">
+    <div className="p-3 bg-white h-full overflow-scroll">
       <h2 className="font-semibold text-telegram-black py-2 text-xl">
         Search Results
       </h2>
