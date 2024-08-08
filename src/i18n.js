@@ -34,6 +34,10 @@ i18next
                     language: "Language",
                     all_products: 'All Products',
                     select_language: "Select Language",
+                    price: "Price",
+                    apply: "Apply",
+                    show_first: 'Show First',
+                    close: 'Close',
                 }
             },
             uz: {
@@ -60,6 +64,10 @@ i18next
                     language: "Til",
                     all_products: "Barcha tovarlar",
                     select_language: "Tilni tanlang",
+                    price: "Narx",
+                    apply: "Qo'llash",
+                    show_first: "Avval ko'rsating",
+                    close: "Yopish",
                 }
             },
             ru: {
@@ -86,6 +94,10 @@ i18next
                     language: "Язык",
                     all_products: "Все товары",
                     select_language: "Выберите язык",
+                    price: "Цена",
+                    apply: "Применять",
+                    show_first: "Сначала показывать",
+                    close: 'Закрыть'
                 }
             }
         }
