@@ -26,7 +26,7 @@ export interface ProductProps {
   
 
 
-export interface ProductType {
+  export interface ProductType {
     product_id: number;
     title: string;
     price: number;
@@ -41,9 +41,12 @@ export interface ProductType {
     product_img: string[];
     pre_orders: boolean;
     bestsellers: boolean;
-    category: string;
     quantity: number;
+    category: string;
+    date_added?: string; 
+    sold?: number; 
   }
+  
 
 
 export interface CategoriesType {
@@ -71,7 +74,7 @@ export const categoriesArr: CategoryType[] = [
         img: "https://humo.fra1.cdn.digitaloceanspaces.com/magicbot/humodemo/categories/eU2RnQZfqvPJMTxYbEcRNY1tB2D3uWnyUgwHrpKq.png",
         products: [
             {
-                product_id:1,
+                product_id: 1,
                 title: "Minipicco Кеды Heather",
                 price: 329000,
                 sale: true,
@@ -82,13 +85,20 @@ export const categoriesArr: CategoryType[] = [
                 color: ['white', 'black', 'red', 'green', 'yellow', 'blue'],
                 gender: 'male',
                 description: "Кеды Heather от Турецкого бренда Minipicco в оранжевом цвете с узорами и двумя застежками",
-                product_img: ["https://i.pinimg.com/originals/f7/1c/5c/f71c5c1e89dbb27a7e840b6fb60932eb.png", "https://png.pngtree.com/png-vector/20240205/ourmid/pngtree-plain-dark-green-t-shirt-mockup-template-with-view-front-and-png-image_11547250.png", "https://png.pngtree.com/png-vector/20230902/ourmid/pngtree-white-t-shirt-mockup-realistic-t-shirt-png-image_9906363.png", "https://images.squarespace-cdn.com/content/v1/6136ee30d6ef722b639dbca2/1638340804092-B8ZQOIBR8USKTDUWWV38/Gildan+21_adobespark.png"],
+                product_img: [
+                  "https://i.pinimg.com/originals/f7/1c/5c/f71c5c1e89dbb27a7e840b6fb60932eb.png",
+                  "https://png.pngtree.com/png-vector/20240205/ourmid/pngtree-plain-dark-green-t-shirt-mockup-template-with-view-front-and-png-image_11547250.png",
+                  "https://png.pngtree.com/png-vector/20230902/ourmid/pngtree-white-t-shirt-mockup-realistic-t-shirt-png-image_9906363.png",
+                  "https://images.squarespace-cdn.com/content/v1/6136ee30d6ef722b639dbca2/1638340804092-B8ZQOIBR8USKTDUWWV38/Gildan+21_adobespark.png"
+                ],
                 pre_orders: false,
                 bestsellers: false,
-                quantity:0,
-                category: 't-shirt'
-
-            },
+                quantity: 0,
+                category: 't-shirt',
+                date_added: "2023-08-07",
+                sold: 850, 
+              },
+              
             {
                 product_id:2,
                 title: "Minipicco Кеды Heather",
@@ -105,7 +115,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 't-shirt'
+                category: 't-shirt',
+                date_added: "2014-08-07",
+                sold: 110, 
 
             },
             {
@@ -124,7 +136,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 't-shirt'
+                category: 't-shirt',
+                date_added: "2024-08-07",
+                sold: 1150, 
 
             },
             {
@@ -143,7 +157,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 't-shirt'
+                category: 't-shirt',
+                date_added: "2023-01-07",
+                sold: 2150, 
 
             }
         ] 
@@ -170,7 +186,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'shoes'
+                category: 'shoes',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:6,
@@ -188,7 +206,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'shoes'
+                category: 'shoes',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:7,
@@ -206,7 +226,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'shoes'
+                category: 'shoes',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:8,
@@ -224,7 +246,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'shoes'
+                category: 'shoes',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
         ]  
     },
@@ -250,7 +274,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'furniture'
+                category: 'furniture',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:10,
@@ -268,7 +294,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'furniture'
+                category: 'furniture',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:11,
@@ -286,7 +314,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'furniture'
+                category: 'furniture',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:12,
@@ -304,7 +334,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'furniture'
+                category: 'furniture',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
         ]  
     },
@@ -330,7 +362,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Гигиена и уход'
+                category: 'Гигиена и уход',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:14,
@@ -348,7 +382,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Гигиена и уход'
+                category: 'Гигиена и уход',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:15,
@@ -366,7 +402,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Гигиена и уход'
+                category: 'Гигиена и уход',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:16,
@@ -384,7 +422,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Гигиена и уход'
+                category: 'Гигиена и уход',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
         ] 
     },
@@ -410,7 +450,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Питание и посуда'
+                category: 'Питание и посуда',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:18,
@@ -428,7 +470,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Питание и посуда'
+                category: 'Питание и посуда',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:19,
@@ -446,7 +490,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Питание и посуда'
+                category: 'Питание и посуда',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:20,
@@ -464,7 +510,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'Питание и посуда'
+                category: 'Питание и посуда',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             
         ]  
@@ -491,7 +539,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'teachnology'
+                category: 'teachnology',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:22,
@@ -509,12 +559,14 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'teachnology'
+                category: 'teachnology',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:23,
                 title: "Iphone XS",
-                price: 296100,
+                price: 2296100,
                 sale: true,
                 currency: "UZS",
                 discount: true,
@@ -527,7 +579,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'teachnology'
+                category: 'teachnology',
+                date_added: "2024-08-07",
+                sold: 150, 
             },
             {
                 product_id:24,
@@ -545,7 +599,9 @@ export const categoriesArr: CategoryType[] = [
                 pre_orders: false,
                 bestsellers: false,
                 quantity:0,
-                category: 'teachnology'
+                category: 'teachnology',
+                date_added: "2024-08-08",
+                sold: 240, 
             },
             
         ]  

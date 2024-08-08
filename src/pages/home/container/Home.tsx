@@ -7,11 +7,12 @@ import { CategoriesAll, ProductList } from '../../../components';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { categoriesArr } from '../../../constants/Categories.constants';
 
 const Home: React.FC = () => {
-
-
   const { t } = useTranslation();
+
+  const allProducts = categoriesArr.flatMap(category => category.products);
 
   return (
     <div className="space-y-3">
@@ -19,7 +20,7 @@ const Home: React.FC = () => {
       <Header />
       <SliderBanner />
       <CategoriesAll />
-      <ProductList>
+      <ProductList products={allProducts}>
         <div className="flex justify-between">
           <h2 className="font-semibold text-telegram-black py-2 text-xl">
             {t('discounts')} 

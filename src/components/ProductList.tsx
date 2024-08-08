@@ -1,42 +1,27 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import ProductCard from "./ProductCard";
-import { categoriesArr, CategoryType, ProductType } from "../constants/Categories.constants";
-import { RootState } from "../store/store";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import ProductCard from './ProductCard';
+import { ProductType } from '../constants/Categories.constants';
+import { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
 
 interface ProductListProps {
   children?: React.ReactNode;
+  products: ProductType[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ children }) => {
+const ProductList: React.FC<ProductListProps> = ({ children, products }) => {
   const navigate = useNavigate();
   const searchQuery = useSelector((state: RootState) => state.search.query);
 
   const handlerClickFunc = (id: number) => {
-    for (const category of categoriesArr) {
-      if (category.products) {
-        const clickedItem = category.products.find(
-          (item: ProductType) => item.product_id === id
-        );
-
-        if (clickedItem) {
-          navigate(`/ProductCardDetails/${id}`);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          return;
-        }
-      }
-    }
-    console.log("Error: Item not found");
+    navigate(`/ProductCardDetails/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const filteredProducts = categoriesArr.flatMap((category: CategoryType) =>
-    category.products.filter((product: ProductType) =>
-      product.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+  const filteredProducts = products.filter((product: ProductType) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-
 
   return (
     <div className="bg-white rounded-2xl mt-3 p-4">
