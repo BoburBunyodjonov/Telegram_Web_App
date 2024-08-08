@@ -104,7 +104,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   useEffect(() => {
     setInterval(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
   });
 
 

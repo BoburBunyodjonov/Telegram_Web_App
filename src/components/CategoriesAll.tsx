@@ -28,7 +28,7 @@ const CategoriesAll: React.FC = () => {
   useEffect(() => {
     setInterval(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
   });
 
 

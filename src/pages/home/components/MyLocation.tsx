@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -7,17 +7,57 @@ import BottomDrawer from "../../../components/BottomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLocationDrawer } from "../../../reducers/DrawerSlice";
 import { RootState } from "../../../store/store";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import { geocodeCoordinates } from "../../Profile/components/geocodeUtils";
 
 const MyLocation = () => {
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(
+    null
+  );
+  const [userAddress, setUserAddress] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
   const dispatch = useDispatch();
-  const locationDrawerOpen = useSelector((state: RootState) => state.drawer.locationOpen);
+  const locationDrawerOpen = useSelector(
+    (state: RootState) => state.drawer.locationOpen
+  );
 
   const handleLocationDrawerToggle = () => {
     dispatch(toggleLocationDrawer());
   };
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const savedLocation = localStorage.getItem("userLocation");
+    const savedAddress = localStorage.getItem("userAddress");
+
+    if (savedLocation) {
+      setUserLocation(JSON.parse(savedLocation));
+    }
+
+    if (savedAddress) {
+      setUserAddress(savedAddress);
+    } else if (savedLocation) {
+      // If address is not available but location is, fetch the address
+      fetchAddressFromCoordinates(JSON.parse(savedLocation));
+    }
+  }, []);
+
+  const fetchAddressFromCoordinates = async (coords: [number, number]) => {
+    setLoading(true);
+    try {
+      const address = await geocodeCoordinates(coords[0], coords[1]);
+      setUserAddress(address);
+      localStorage.setItem("userAddress", address);
+      setError(null);
+    } catch (err) {
+      setError("Failed to retrieve address.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -27,7 +67,7 @@ const MyLocation = () => {
             style={{ fontSize: "30px" }}
             className="text-[#309156]"
           />
-          <Typography>{t('address_add')}</Typography>
+          <Typography>{t("address_add")}</Typography>
           <ErrorIcon
             style={{ fontSize: "30px" }}
             className=" text-[rgb(234_179_8)]"
@@ -39,10 +79,7 @@ const MyLocation = () => {
         onClose={handleLocationDrawerToggle}
         title="Мои адреса"
       >
-        <Link
-          className="flex items-center py-4 px-2 cursor-pointer"
-          to="/map"
-        >
+        <Link className="flex items-center py-4 px-2 cursor-pointer" to="/map">
           <p className="flex-1 text-telegram-black">Добавить адрес</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +98,23 @@ const MyLocation = () => {
             />
           </svg>
         </Link>
-        <button onClick={handleLocationDrawerToggle}
+
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        {userLocation && (
+          <div className="mt-4">
+            <p className="text-telegram-black font-bold">Saved Address:</p>
+            <p className="text-telegram-black">
+              Address: {userAddress || "Address not available"}
+            </p>
+            <p className="text-telegram-black">
+              Location: {userLocation[0]}, {userLocation[1]}
+            </p>
+          </div>
+        )}
+
+        <button
+          onClick={handleLocationDrawerToggle}
           title="common.close"
           className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
         >

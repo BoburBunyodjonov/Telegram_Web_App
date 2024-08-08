@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Radio, RadioGroup } from '@mui/material';
+import { Box, Radio, RadioGroup } from "@mui/material";
 import { SearchInput } from "../../../components";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,9 +30,13 @@ const lngs: LngsType = {
 };
 
 const Header: React.FC = () => {
-  const currentLanguage = useSelector((state: RootState) => state.language.currentLanguage);
+  const currentLanguage = useSelector(
+    (state: RootState) => state.language.currentLanguage
+  );
   const dispatch = useDispatch();
-  const languageDrawerOpen = useSelector((state: RootState) => state.drawer.languageOpen);
+  const languageDrawerOpen = useSelector(
+    (state: RootState) => state.drawer.languageOpen
+  );
 
   const { t, i18n } = useTranslation();
 
@@ -81,7 +85,11 @@ const Header: React.FC = () => {
         <RadioGroup name="languages">
           <div className="transition ease rounded-t-2xl bg-telegram-white max-h-[80vh] animate-slide-up scrollbar-hide overflow-y-scroll px-4 pb-4 w-full">
             {Object.keys(lngs).map((lng) => (
-              <label onClick={() => handleLanguageChange(lng)} key={lng} htmlFor={lng}>
+              <label
+                onClick={() => handleLanguageChange(lng)}
+                key={lng}
+                htmlFor={lng}
+              >
                 <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
                   <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
                     <div className="rounded-full overflow-hidden">
@@ -100,7 +108,12 @@ const Header: React.FC = () => {
                   </div>
                   <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
                     <div className="w-full h-full absolute bg-telegram-primary text-white rounded-full grid place-content-center">
-                      <Radio name="languages" id={lng} value={lng} checked={i18n.language === lng} />
+                      <Radio
+                        name="languages"
+                        id={lng}
+                        value={lng}
+                        checked={i18n.language === lng}
+                      />
                     </div>
                   </div>
                 </div>
@@ -108,6 +121,7 @@ const Header: React.FC = () => {
             ))}
           </div>
         </RadioGroup>
+
         <button
           onClick={handleLanguageDrawerToggle}
           className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
