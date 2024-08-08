@@ -20,6 +20,8 @@ import { ProductCardDetails } from "./components";
 import StoreProvider from "./store/StoreProvider";
 import SearchPage from "./pages/search/container/SearchPage";
 
+import { useTranslation } from "react-i18next";
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -47,6 +49,8 @@ const routes = createBrowserRouter(
 );
 
 const App = () => {
+
+
   return (
     <>
       <StoreProvider>

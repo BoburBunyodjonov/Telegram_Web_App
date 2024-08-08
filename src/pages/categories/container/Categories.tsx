@@ -2,8 +2,13 @@ import { CategoriesAll, ProductList } from "../../../components";
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Header from "../components/Header";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
+
+  const { t } = useTranslation();
+
+
   return (
     <>
       <Header/>
@@ -11,7 +16,7 @@ const Categories = () => {
       <ProductList>
         <div className="flex justify-between">
           <h2 className="font-semibold text-telegram-black py-2 text-xl">
-            Все товары
+            {t("all_products")}
           </h2>
           <div>
             <div className="flex items-center gap-2 mt-3 px-4">

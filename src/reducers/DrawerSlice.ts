@@ -1,28 +1,33 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface DrawerState {
-  open: boolean;
+  languageOpen: boolean;
+  locationOpen: boolean;
 }
 
 const initialState: DrawerState = {
-  open: false,
+  languageOpen: false,
+  locationOpen: false,
 };
 
 const drawerSlice = createSlice({
   name: 'drawer',
   initialState,
   reducers: {
-    openDrawer(state) {
-      state.open = true;
+    toggleLanguageDrawer(state) {
+      state.languageOpen = !state.languageOpen;
     },
-    closeDrawer(state) {
-      state.open = false;
+    toggleLocationDrawer(state) {
+      state.locationOpen = !state.locationOpen;
     },
-    toggleDrawer(state) {
-      state.open = !state.open;
+    closeAllDrawers(state) {
+      state.languageOpen = false;
+      state.locationOpen = false;
     },
   },
 });
 
-export const { openDrawer, closeDrawer, toggleDrawer } = drawerSlice.actions;
+export const { toggleLanguageDrawer, toggleLocationDrawer, closeAllDrawers } = drawerSlice.actions;
 export default drawerSlice.reducer;
+
+

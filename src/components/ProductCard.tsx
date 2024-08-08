@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, increaseQuantity, decreaseQuantity } from "../reducers/CartSlice";
 import { RootState } from "../store/store";
 import { Skeleton } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 // Define the props interface
 interface ProductCardProps {
@@ -106,6 +107,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }, 1000);
   });
 
+
+  const { t } = useTranslation();
+
+
   return (
     <div className="w-full rounded-xl flex flex-col justify-between relative min-w-[128px]">
       {loading ? (
@@ -134,7 +139,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <div className="absolute bottom-1 left-1 flex flex-col items-start space-y-1">
               <p className="flex items-center text-white bg-red-500 w-fit font-semibold py-[1px] text-center rounded-md px-2 text-[10px] z-10">
                 <LocalFireDepartmentIcon />
-                Распродажа
+                {t('sale')}
               </p>
             </div>
           </div>
@@ -199,7 +204,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <ButtonComp
                 handlerClick={handleAddToCart}
                 icon={<ShoppingBagIcon />}
-                text="В корзину"
+                text={t('add_cart')}
               />
             )}
           </div>

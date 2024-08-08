@@ -36,6 +36,8 @@ const ProductList: React.FC<ProductListProps> = ({ children }) => {
     )
   );
 
+
+
   return (
     <div className="bg-white rounded-2xl mt-3 p-4">
       {children}

@@ -5,6 +5,7 @@ import CartCard from "../components/CartCard";
 import DeleteIcon from "@mui/icons-material/Delete";
 import currency_value from "currency.js";
 import { RootState } from "../../../store/store";
+import { useTranslation } from "react-i18next";
 
 interface ProductType {
   product_id: number;
@@ -59,11 +60,14 @@ const Cart: React.FC = () => {
     navigate("/checkout");
   };
 
+  const { t } = useTranslation();
+
+
   return (
     <>
       <div className="h-full bg-white">
-        <div className="bg-white flex p-3 justify-between items-center border">
-          <h2 className="text-2xl font-semibold text-telegram-black">Savat</h2>
+        <div className="bg-white flex p-3 justify-between items-center">
+          <h2 className="text-2xl font-semibold text-telegram-black">{t('cart')}</h2>
           <DeleteIcon />
         </div>
         <div className="h-[74vh] overflow-scroll bg-white">
