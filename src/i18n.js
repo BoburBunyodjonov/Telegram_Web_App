@@ -38,6 +38,10 @@ i18next
                     apply: "Apply",
                     show_first: 'Show First',
                     close: 'Close',
+                    best_sellers: "Best Sellers",
+                    cheap: 'Cheap',
+                    expensive: 'Expensive',
+                    new_arrivals: 'New Arrays',
                 }
             },
             uz: {
@@ -68,6 +72,10 @@ i18next
                     apply: "Qo'llash",
                     show_first: "Avval ko'rsating",
                     close: "Yopish",
+                    best_sellers: "Bestsellerlar",
+                    cheap: 'Arzon',
+                    expensive: 'Qimmmat',
+                    new_arrivals: 'Yangi keganlar',
                 }
             },
             ru: {
@@ -97,7 +105,11 @@ i18next
                     price: "Цена",
                     apply: "Применять",
                     show_first: "Сначала показывать",
-                    close: 'Закрыть'
+                    close: 'Закрыть',
+                    best_sellers: "Бестселлеры",
+                    cheap: 'Дешевый',
+                    expensive: 'Дорогой',
+                    new_arrivals: 'Новые поступления',
                 }
             }
         }

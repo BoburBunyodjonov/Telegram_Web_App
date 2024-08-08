@@ -10,6 +10,7 @@ import {
 } from "../../../reducers/DrawerSlice";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
+import { Radio, RadioGroup } from "@mui/material";
 
 const Categories = () => {
   const { t } = useTranslation();
@@ -64,33 +65,60 @@ const Categories = () => {
         onClose={handleSortDrawerToggle}
         title={t("show_first")}
       >
-        <div className="transition ease rounded-t-2xl bg-telegram-white max-h-[80vh] animate-slide-up scrollbar-hide overflow-y-scroll px-4 pb-4 w-full">
-          <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
-            <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
-              Бестселлеры
+        <RadioGroup name="sort">
+          <div className="transition ease rounded-t-2xl bg-telegram-white max-h-[80vh] animate-slide-up scrollbar-hide overflow-y-scroll px-4 pb-4 w-full">
+            <label htmlFor="best_sellers">
+              <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
+                <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
+                  {t('best_sellers')}
+                </div>
+                <Radio
+                        name="sort"
+                        id="best_sellers"
+                        value="best_sellers"
+                      />
+              </div>
+            </label>
+            <label htmlFor="cheap">
+              <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
+                <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
+                  {t('cheap')}
+                </div>
+                <Radio
+                        name="sort"
+                        id="cheap"
+                        value="cheap"
+
+                      />
+              </div>
+            </label>
+            <label htmlFor="expensive">
+              <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
+                <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
+                  {t('expensive')}
+                </div>
+                <Radio
+                        name="sort"
+                        id="expensive"
+                        value="expensive"
+                      />
+              </div>
+            </label>
+            <label htmlFor="new_arrivals">
+            <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
+              <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
+                {t('new_arrivals')}
+              </div>
+              <Radio
+                        name="sort"
+                        id="new_arrivals"
+                        value="new_arrivals"
+
+                      />
             </div>
-            <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner"></div>
+            </label>
           </div>
-          <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
-            <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
-              Дешевый
-            </div>
-            <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner"></div>
-          </div>
-          <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
-            <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
-              Дорогой
-            </div>
-            <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner"></div>
-          </div>
-          <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
-            <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
-              Новые поступления
-            </div>
-            <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner"></div>
-          </div>
-          <div></div>
-        </div>
+        </RadioGroup>
         <button
           onClick={handleSortDrawerToggle}
           title="common.close"
@@ -144,12 +172,12 @@ const Categories = () => {
             </div>
           </div>
           <button
-          onClick={handlePriceSortDrawerToggle}
-          title="common.close"
-          className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
-        >
-          {t("apply")}
-        </button>
+            onClick={handlePriceSortDrawerToggle}
+            title="common.close"
+            className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
+          >
+            {t("apply")}
+          </button>
           <div className="flex-col items-center  z-50 mt-3 select-none transition  relative -left-0 opacity-100 -translate-y-0 flex">
             <div className="grid grid-cols-3 gap-2 m-auto w-full  p-2">
               <button className=" p-3 text-2xl bg-[#D2D6DB] text-black border shadow-sm active:bg-[#c4cede] active:border-[#c4cede] rounded-md">
@@ -179,7 +207,12 @@ const Categories = () => {
               <button className=" p-3 text-2xl bg-[#D2D6DB] text-black border shadow-sm active:bg-[#c4cede] active:border-[#c4cede] rounded-md">
                 9
               </button>
-              <button className=" p-3 text-2xl text-black"  onClick={handlePriceSortDrawerToggle}>{t('close')}</button>
+              <button
+                className=" p-3 text-2xl text-black"
+                onClick={handlePriceSortDrawerToggle}
+              >
+                {t("close")}
+              </button>
               <button className=" p-3 text-2xl bg-[#D2D6DB] text-black border shadow-sm active:bg-[#c4cede] active:border-[#c4cede] rounded-md">
                 0
               </button>
@@ -204,8 +237,6 @@ const Categories = () => {
           </div>
           <div></div>
         </div>
-
-       
       </BottomDrawer>
     </>
   );
