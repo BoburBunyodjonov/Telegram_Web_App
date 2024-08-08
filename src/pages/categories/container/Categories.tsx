@@ -50,18 +50,7 @@ const Categories = () => {
   };
 
   const applySort = () => {
-    let sorted = [...categoriesArr.flatMap((category) => category.products)];
-
-    // price sort
-    if (minPrice !== "" || maxPrice !== "") {
-      sorted = sorted.filter((product) => {
-        const price = product.price;
-        return (
-          (minPrice === "" || price >= minPrice) &&
-          (maxPrice === "" || price <= maxPrice)
-        );
-      });
-    }
+    const sorted = [...categoriesArr.flatMap((category) => category.products)];
 
     // 4 sort
     if (selectedSort === "expensive") {
@@ -78,8 +67,43 @@ const Categories = () => {
     }
 
     setSortedProducts(sorted);
-    dispatch(togglePriceSortDrawer()); // Close the drawer
+    dispatch(toggleSortDrawer());
+
+    // Close the drawer
   };
+  const applyPriceSort = () => {
+    let sorted = [...categoriesArr.flatMap((category) => category.products)];
+
+    // price sort
+    if (minPrice !== "" || maxPrice !== "") {
+      sorted = sorted.filter((product) => {
+        const price = product.price;
+        return (
+          (minPrice === "" || price >= minPrice) &&
+          (maxPrice === "" || price <= maxPrice)
+        );
+      });
+    }
+
+    if (selectedSort === "expensive") {
+      sorted.sort((a, b) => b.price - a.price);
+    } else if (selectedSort === "cheap") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (selectedSort === "new_arrivals") {
+      sorted.sort(
+        (a, b) =>
+          new Date(b.date_added!).getTime() - new Date(a.date_added!).getTime()
+      );
+    } else if (selectedSort === "best_sellers") {
+      sorted.sort((a, b) => (b.sold ?? 0) - (a.sold ?? 0));
+    }
+    setSortedProducts(sorted);
+    dispatch(togglePriceSortDrawer());
+
+    // Close the drawer
+  };
+
+  // dispatch(togglePriceSortDrawer());
 
   const allProducts = categoriesArr.flatMap((category) => category.products);
 
@@ -216,7 +240,7 @@ const Categories = () => {
             </div>
           </div>
           <button
-            onClick={applySort}
+            onClick={applyPriceSort}
             title="common.close"
             className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
           >

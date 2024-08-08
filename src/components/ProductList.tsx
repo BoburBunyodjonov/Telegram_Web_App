@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 
 interface ProductListProps {
   children?: React.ReactNode;
-  products: ProductType[];
+  products?: ProductType[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ children, products }) => {
+const ProductList: React.FC<ProductListProps> = ({ children, products = [] }) => {
   const navigate = useNavigate();
   const searchQuery = useSelector((state: RootState) => state.search.query);
 
