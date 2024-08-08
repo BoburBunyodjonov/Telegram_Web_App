@@ -6,13 +6,23 @@ import {
   Route,
 } from "react-router-dom";
 
-import './App.css'
+import "./App.css";
 
 // Root Layout
 import Layout from "./layout/Layout";
 
 // Pages
-import { Address, Cart, Categories, Checkout, Home, Map, Profile, ProfileInfo, SingleCategorie } from "./pages";
+import {
+  Address,
+  Cart,
+  Categories,
+  Checkout,
+  Home,
+  Map,
+  Profile,
+  ProfileInfo,
+  SingleCategorie,
+} from "./pages";
 
 import "./App.css";
 import { ProductCardDetails } from "./components";
@@ -20,13 +30,10 @@ import { ProductCardDetails } from "./components";
 import StoreProvider from "./store/StoreProvider";
 import SearchPage from "./pages/search/container/SearchPage";
 
-import { useTranslation } from "react-i18next";
-
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
-
-      <Route path="/checkout" element={<Checkout/>} />
+      <Route path="/checkout" element={<Checkout />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
@@ -37,7 +44,7 @@ const routes = createBrowserRouter(
         <Route path="/address" element={<Address />} />
         <Route path="/map" element={<Map />} />
         <Route path="/info" element={<ProfileInfo />} />
-        <Route path="/search" element={<SearchPage/>} />
+        <Route path="/search" element={<SearchPage />} />
         <Route
           path="/ProductCardDetails/:id"
           element={<ProductCardDetails />}
@@ -49,8 +56,6 @@ const routes = createBrowserRouter(
 );
 
 const App = () => {
-
-
   return (
     <>
       <StoreProvider>

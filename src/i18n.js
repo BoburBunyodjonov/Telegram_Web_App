@@ -33,6 +33,7 @@ i18next
                     my_address: "My Address",
                     language: "Language",
                     all_products: 'All Products',
+                    select_language: "Select Language",
                 }
             },
             uz: {
@@ -57,7 +58,8 @@ i18next
                     my_profile: "Mening profilim",
                     my_address: "Mening Manzilim",
                     language: "Til",
-                    all_products: "Barcha tovarlar"
+                    all_products: "Barcha tovarlar",
+                    select_language: "Tilni tanlang",
                 }
             },
             ru: {
@@ -83,6 +85,7 @@ i18next
                     my_address: "Мой адрес",
                     language: "Язык",
                     all_products: "Все товары",
+                    select_language: "Выберите язык",
                 }
             }
         }
