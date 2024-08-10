@@ -12,6 +12,8 @@ import uzFlag from "../../../assets/lang-uzb.eaff17a4.svg";
 import ruFlag from "../../../assets/lang-rus.591ff664.svg";
 import enFlag from "../../../assets/lang-en.55990df2.svg";
 
+import LanguageIcon from '@mui/icons-material/Language';
+
 interface Language {
   nativeName: string;
   flag: string;
@@ -30,9 +32,9 @@ const lngs: LngsType = {
 };
 
 const Header: React.FC = () => {
-  const currentLanguage = useSelector(
-    (state: RootState) => state.language.currentLanguage
-  );
+  // const currentLanguage = useSelector(
+  //   (state: RootState) => state.language.currentLanguage
+  // );
   const dispatch = useDispatch();
   const languageDrawerOpen = useSelector(
     (state: RootState) => state.drawer.languageOpen
@@ -40,7 +42,7 @@ const Header: React.FC = () => {
 
   const { t, i18n } = useTranslation();
 
-  const currentFlag = lngs[currentLanguage as keyof LngsType]?.flag || uzFlag;
+  // const currentFlag = lngs[currentLanguage as keyof LngsType]?.flag || uzFlag;
 
   const handleLanguageChange = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -63,15 +65,7 @@ const Header: React.FC = () => {
               className="bg-telegram-secondary-white rounded-2xl w-12 h-12 flex items-center justify-center cursor-pointer"
               onClick={handleLanguageDrawerToggle}
             >
-              <img
-                alt={currentLanguage}
-                loading="lazy"
-                width="16"
-                height="16"
-                decoding="async"
-                data-nimg="1"
-                src={currentFlag}
-              />
+             <LanguageIcon/>
             </button>
           </div>
         </div>

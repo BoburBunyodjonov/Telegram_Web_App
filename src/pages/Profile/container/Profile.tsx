@@ -15,6 +15,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import uzFlag from "../../../assets/lang-uzb.eaff17a4.svg";
 import ruFlag from "../../../assets/lang-rus.591ff664.svg";
 import enFlag from "../../../assets/lang-en.55990df2.svg";
+import LanguageIcon from '@mui/icons-material/Language';
 
 interface Language {
   nativeName: string;
@@ -34,14 +35,13 @@ const lngs: LngsType = {
 };
 
 const Profile: React.FC = () => {
-  const currentLanguage = useSelector((state: RootState) => state.language.currentLanguage);
+  // const currentLanguage = useSelector((state: RootState) => state.language.currentLanguage);
   const dispatch = useDispatch();
   const languageDrawerOpen = useSelector((state: RootState) => state.drawer.languageOpen);
 
   const { t, i18n } = useTranslation();
 
-  const currentFlag = lngs[currentLanguage as keyof LngsType]?.flag || uzFlag;
-  const currentNativeName = lngs[currentLanguage as keyof LngsType]?.nativeName || "Uzbek";
+  // const currentNativeName = lngs[currentLanguage as keyof LngsType]?.nativeName || "Uzbek";
 
   const handleLanguageChange = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -113,15 +113,15 @@ const Profile: React.FC = () => {
         </div>
         <div onClick={handleLanguageDrawerToggle} className="cursor-pointer bg-[#F8F8F8] rounded-xl p-3 flex justify-between items-center mt-3">
           <div className="flex items-center space-x-2">
-            <img className="w-6 h-6 rounded-full" src={currentFlag} alt={currentNativeName} />
+          <LanguageIcon/>
             <Typography fontSize={16} variant="h6" fontWeight={500} color="initial">
               {t("language")}
             </Typography>
           </div>
           <div className="flex items-center space-x-1">
-            <Typography fontSize={16} variant="h6" fontWeight={500} color="#9c9c9c">
+            {/* <Typography fontSize={16} variant="h6" fontWeight={500} color="#9c9c9c">
               {currentNativeName}
-            </Typography>
+            </Typography> */}
             <KeyboardArrowRightIcon className="text-[#9c9c9c]" />
           </div>
         </div>
@@ -165,7 +165,7 @@ const Profile: React.FC = () => {
           onClick={handleLanguageDrawerToggle}
           className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden bg-[#2F9155] mt-4 rounded-xl"
         >
-          {t("common.close")}
+          {t("apply")}
         </button>
       </BottomDrawer>
     </>
