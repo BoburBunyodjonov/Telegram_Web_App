@@ -11,8 +11,9 @@ import ClickPay from "../images/click.webp";
 import { Radio, RadioGroup } from "@mui/material";
 import { useForm } from "react-hook-form";
 import currency from "currency.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { clearCart } from "../../../reducers/CartSlice";
 // import { Dayjs } from "dayjs";
 
 interface ProductType {
@@ -38,6 +39,8 @@ const calculateDiscountedPrice = (price: number, discountPercent: number): numbe
 };
 
 const Checkout: React.FC = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -115,6 +118,7 @@ const Checkout: React.FC = () => {
 
     reset();
     navigate("/profile");
+    dispatch(clearCart());
   };
 
   return (
