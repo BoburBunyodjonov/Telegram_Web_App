@@ -1,15 +1,21 @@
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import { Badge } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { ProductType } from "../constants/Categories.constants";
 
 const Navbar = () => {
+  const cartitems = useSelector((state: RootState) => state.cart) as ProductType[];
   const location = useLocation();
 
   console.log(location.pathname);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
+
+  const totalQuantity = cartitems.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <>
       <div className="md:max-w-[500px] container mx-auto fixed bottom-0 grid grid-cols-4 px-1 bg-white border-t rounded-t-lg z-40 pb-2">
@@ -19,8 +25,6 @@ const Navbar = () => {
           }`}
           to="/"
         >
-          
-
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -67,6 +71,7 @@ const Navbar = () => {
           }`}
           to="/cart"
         >
+          <Badge badgeContent={totalQuantity} color="primary">
           <div className="relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +92,11 @@ const Navbar = () => {
               11
             </div>
           </div>
-          <span className="text-xs mt-1">{t('cart')}</span>
+
+          </Badge>
+          <span className="text-xs mt-1">{t("cart")}</span>
+
+          
         </NavLink>
         <NavLink
           className={`p-3 flex flex-col items-center flex-grow justify-center [&amp;>path]:fill-white text-black ${
@@ -110,7 +119,7 @@ const Navbar = () => {
               d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
             ></path>
           </svg>
-          <span className="text-xs mt-1">{t('profile')}</span>
+          <span className="text-xs mt-1">{t("profile")}</span>
         </NavLink>
       </div>
     </>

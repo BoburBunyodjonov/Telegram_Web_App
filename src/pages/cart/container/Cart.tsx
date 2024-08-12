@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CartCard from "../components/CartCard";
 import DeleteIcon from "@mui/icons-material/Delete";
-import currency_value from "currency.js";
+import currency from "currency.js";
 import { RootState } from "../../../store/store";
 import { useTranslation } from "react-i18next";
 
@@ -14,54 +14,38 @@ interface ProductType {
   quantity: number;
   title: string;
   product_img: string[];
-  currency: string;
+  currency: string; 
 }
 
 const Cart: React.FC = () => {
-  const cartitems = useSelector((state: RootState) => state.cart);
-  const [localStorageCartItems, setLocalStorageCartItems] = useState<
-    ProductType[]
-  >([]);
+  const cartitems = useSelector((state: RootState) => state.cart) as ProductType[];
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedCartItems = localStorage.getItem("cart");
-    if (storedCartItems) {
-      setLocalStorageCartItems(JSON.parse(storedCartItems));
-    }
-  }, [cartitems]);
+  const { t } = useTranslation();
 
   const calculateTotalPrice = (): string => {
     let totalPrice = 0;
     cartitems.forEach((product: ProductType) => {
-      const calculateDiscountedPrice = (
-        price: number,
-        discountPercent: number
-      ) => {
+      const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
         return price - price * (discountPercent / 100);
       };
-      const discountedPrice = calculateDiscountedPrice(
-        product.price,
-        product.discount_percent
-      );
-
-      const amount = currency_value(discountedPrice * product.quantity, {
-        precision: 0,
-        symbol: "",
-        separator: " ",
-      }).value;
-
-      totalPrice += amount;
+      const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percent);
+      totalPrice += discountedPrice * product.quantity;
     });
-    return totalPrice.toString();
+
+    const formattedPrice = currency(totalPrice, {
+      precision: 0,
+      symbol: "",
+      separator: " ",
+    }).format();
+
+    return formattedPrice;
   };
 
   const handleCheckout = () => {
     navigate("/checkout");
   };
 
-  const { t } = useTranslation();
-
+  const totalQuantity = cartitems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <>
@@ -71,26 +55,26 @@ const Cart: React.FC = () => {
           <DeleteIcon />
         </div>
         <div className="h-[74vh] overflow-scroll bg-white">
-          {cartitems.map((data: ProductType, index: number) => (
-            <CartCard key={data.product_id} index={index} {...data} />
+          {cartitems.map((data: ProductType) => (
+            <CartCard key={data.product_id} {...data} />
           ))}
         </div>
 
-        {localStorageCartItems.length > 0 && (
+        {cartitems.length > 0 && (
           <div className="md:w-[500px] container bg-white flex fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16 mx-auto bottom-navbarHeight shadow-top">
             <div>
               <p className="font-semibold text-xl">
-                {calculateTotalPrice() + " " + "UZS"}
+                {calculateTotalPrice()} {cartitems[0].currency}
               </p>
               <p className="text-telegram-hint">
-                {cartitems.length} mahsulotlar
+                {totalQuantity} {t('items')}
               </p>
             </div>
             <button
               className="text-sm font-semibold px-3 py-3 bg-[#309156] rounded-xl shadow-sm mt-auto flex items-center justify-center gap-1 bg-telegram-primary text-white"
               onClick={handleCheckout}
             >
-              Rasmiylashtirish
+              {t('checkout')}
             </button>
           </div>
         )}

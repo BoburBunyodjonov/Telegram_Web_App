@@ -3,39 +3,111 @@ import { NavLink } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 import AddressComp from "../components/AddressComp";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Cash from "../images/cash.svg";
 import ClickPay from "../images/click.webp";
-import { Radio, RadioGroup } from "@mui/material";
-
+import { Radio, RadioGroup} from "@mui/material";
+import { useForm } from "react-hook-form";
+import currency from "currency.js";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+// import { Dayjs } from "dayjs";
 
 interface ProductType {
-  name: string; // Make sure this matches the actual properties
+  name: string;
   price: number;
+  quantity: number;
+  title: string;
+  discount_percent: number;
 }
-const Checkout = () => {
+
+interface FormData {
+  name: string;
+  phone: string;
+  delivery_type: string;
+  payment_type: string;
+  comment: string;
+  // delivery_date?: Dayjs | null;
+  address?: string;
+}
+
+const Checkout: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    // control,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>();
+
+  const cartitems = useSelector(
+    (state: RootState) => state.cart
+  ) as ProductType[];
+
   const [products, setProducts] = useState<ProductType[]>([]);
   const [deliveryMethod, setDeliveryMethod] = useState("free_delivery");
+  const [discount, setDiscount] = useState<number>(0);
+  const [promoCode, setPromoCode] = useState("");
 
   useEffect(() => {
     const savedProducts = JSON.parse(localStorage.getItem("cart") || "[]");
     setProducts(savedProducts);
-  }, []);
 
-  const calculateTotalPrice = (): number => {
-    const productTotal = products.reduce(
-      (acc, product) => acc + product.price,
-      0
-    );
+    const savedAddress = localStorage.getItem("userAddress");
+    if (savedAddress) {
+      setValue("address", savedAddress);
+    }
+  }, [setValue]);
+
+  const calculateTotalPrice = (): string => {
+    const productTotal = cartitems.reduce((acc, product) => {
+      const calculateDiscountedPrice = (
+        price: number,
+        discountPercent: number
+      ): number => {
+        return price - price * (discountPercent / 100);
+      };
+
+      const discountedPrice = calculateDiscountedPrice(
+        product.price,
+        product.discount_percent || 0
+      );
+      return acc + discountedPrice * product.quantity;
+    }, 0);
     const deliveryFee = deliveryMethod === "delivery" ? 20000 : 0;
-    return productTotal + deliveryFee;
+
+    const totalBeforeDiscount = productTotal + deliveryFee;
+
+    const finalTotalPrice = totalBeforeDiscount - discount;
+
+    const formattedPrice = currency(finalTotalPrice, {
+      precision: 0,
+      symbol: "",
+      separator: " ",
+    }).format();
+
+    return formattedPrice;
   };
 
-  const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryMethod(event.target.value);
+  const applyDiscount = (code: string) => {
+    if (code === "PROMO10") {
+      return 10000; // 10,000 discount
+    } else {
+      return 0; // No discount
+    }
+  };
+  const onSubmit = (data: FormData) => {
+    // Apply the discount and set it
+    const discountAmount = applyDiscount(promoCode);
+    setDiscount(discountAmount);
+
+    // Log the form data
+    console.log("Form Data: ", data);
+
+    reset();
   };
 
   return (
@@ -59,9 +131,21 @@ const Checkout = () => {
             </Typography>
           </div>
         </div>
-        <AddressComp />
-        <form action="">
-          <div className="p-4 bg-white mt-4 rounded-2xl">
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
+          {localStorage.getItem("userAddress") ? (
+            <div className=" bg-white mt-2 p-4 rounded-2xl">
+              <input
+                id="address"
+                {...register("address")}
+                className="bg-gray-50  outline-none border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 py-4"
+                placeholder="Ваш адрес"
+                readOnly
+              />
+            </div>
+          ) : (
+            <AddressComp />
+          )}
+          <div className="p-4 bg-white mt-2 rounded-2xl">
             <h2 className="font-semibold text-2xl mb-4 text-telegram-black">
               Получатель заказа
             </h2>
@@ -70,31 +154,52 @@ const Checkout = () => {
               <div>
                 <input
                   id="name"
+                  {...register("name", { required: true })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4"
                   placeholder="Ваше имя"
                   required
                   type="text"
-                  name="name"
                 />
+                {errors.name && (
+                  <p className="text-red-600">Name is required</p>
+                )}
               </div>
               <div className="mt-4">
                 <input
                   id="phone"
+                  {...register("phone", {
+                    required: "Номер телефона обязателен",
+                    pattern: {
+                      value: /^\+998\d{2}\d{7}$/,
+                      message: "Неверный номер телефона",
+                    },
+                    validate: (value) => {
+                      if (!/^\+?\d+$/.test(value)) {
+                        return "Только цифры и символ + допустимы";
+                      }
+                      return true;
+                    },
+                  })}
+                  type="text"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4"
                   placeholder="+998900000000"
-                  pattern="^\+998\d{2}\d{7}$"
-                  maxLength={13}
-                  type="text"
-                  name="phone"
-                  required
+                  onInput={(e) =>
+                    (e.currentTarget.value = e.currentTarget.value.replace(
+                      /[^+\d]/g,
+                      ""
+                    ))
+                  }
                 />
+                {errors.phone && (
+                  <p className="text-red-600">Valid phone number is required</p>
+                )}
               </div>
             </div>
           </div>
           <RadioGroup
             name="delivery_type"
             value={deliveryMethod}
-            onChange={handleDeliveryChange}
+            onChange={(e) => setDeliveryMethod(e.target.value)}
           >
             <div className="p-4 bg-white mt-4 rounded-2xl">
               <div className="flex justify-between items-center mb-4">
@@ -116,7 +221,7 @@ const Checkout = () => {
                   <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
                     <div className="w-full h-full absolute bg-telegram-primary text-white rounded-full grid place-content-center">
                       <Radio
-                        name="delivery_type"
+                        {...register("delivery_type", { required: true })}
                         id="free_delivery"
                         value="free_delivery"
                       />
@@ -133,7 +238,11 @@ const Checkout = () => {
                   </div>
                   <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
                     <div className="w-full h-full absolute bg-telegram-primary text-white rounded-full grid place-content-center">
-                      <Radio name="delivery_type" id="pickup" value="pickup" />
+                      <Radio
+                        {...register("delivery_type", { required: true })}
+                        id="pickup"
+                        value="pickup"
+                      />
                     </div>
                   </div>
                 </div>
@@ -150,7 +259,7 @@ const Checkout = () => {
                   <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
                     <div className="w-full h-full absolute bg-telegram-primary text-white rounded-full grid place-content-center">
                       <Radio
-                        name="delivery_type"
+                        {...register("delivery_type", { required: true })}
                         id="delivery"
                         value="delivery"
                       />
@@ -192,12 +301,16 @@ const Checkout = () => {
                     </div>
                     <div className="relative rounded-full bg-gray-100 max-w-[32px] min-w-[32px] h-8 shadow-inner">
                       <div className="w-full h-full absolute bg-telegram-primary text-white rounded-full grid place-content-center">
-                        <Radio name="payment_type" id="cash" value="cash" />
+                        <Radio
+                          {...register("payment_type")}
+                          id="cash"
+                          value="cash"
+                        />
                       </div>
                     </div>
                   </div>
                 </label>
-                <label htmlFor="click">
+                <label htmlFor="clickpay">
                   <div className="gap-2 border-b border-opacity-20 last:border-b-none rounded-xl p-3 flex items-center border-none bg-gray-100 justify-between cursor-pointer">
                     <div className="text-black flex-grow font-semibold flex items-center gap-2">
                       <div className="grid grid-cols-12 gap-1 items-center justify-center w-full">
@@ -221,7 +334,11 @@ const Checkout = () => {
                     </div>
                     <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
                       <div className="w-full h-full absolute bg-telegram-primary text-white rounded-full grid place-content-center">
-                        <Radio name="payment_type" id="click" value="click" />
+                        <Radio
+                          {...register("payment_type")}
+                          id="clickpay"
+                          value="clickpay"
+                        />
                       </div>
                     </div>
                   </div>
@@ -230,23 +347,34 @@ const Checkout = () => {
             </div>
           </RadioGroup>
 
-          {deliveryMethod === "delivery" ? (
-              <div className="p-4 bg-white mt-4 rounded-2xl">
+          {/* {deliveryMethod === "delivery" && (
+            <div className="p-4 bg-white mt-4 rounded-2xl">
               <h2 className="font-semibold text-2xl text-telegram-black">
                 Дата и время доставки
               </h2>
               <div className="mt-2 mb-5 w-full border-b border-telegram-hint opacity-20"></div>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DateTimePicker"]}>
-                  <DemoItem>
-                    <DateTimePicker />
-                  </DemoItem>
-                </DemoContainer>
+                <Controller
+                  name="delivery_date"
+                  control={control}
+                  render={({ field }) => (
+                    <DateTimePicker
+                      {...field}
+                      renderInput={(params) => <TextField {...params} />}
+                      onChange={(newValue) => {
+                        setValue("delivery_date", newValue);
+                        field.onChange(newValue);
+                      }}
+                    />
+                  )}
+                />
               </LocalizationProvider>
+              {errors.delivery_date && (
+                <p className="text-red-600">{errors.delivery_date.message}</p>
+              )}
             </div>
-          ) : ""}
+          )} */}
 
-          
           <div className="p-4 bg-white mt-4 rounded-2xl">
             <h2 className="font-semibold text-telegram-black my-2 text-xl">
               Комментарий к заказу
@@ -254,9 +382,12 @@ const Checkout = () => {
             <div className="mt-2 mb-5 w-full border-b border-telegram-hint opacity-20"></div>
             <div className="">
               <textarea
-                className="px-3 py-2 rounded-xl border resize-none bg-gray-100 border-gray-400 text-black min-h-[80px] outline-none  w-full placeholder:opacity-60"
+                id="comment"
+                {...register("comment")}
                 placeholder="Комментарий к заказу"
-              ></textarea>
+                rows={4}
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+              />
             </div>
           </div>
           <div className="mt-4 bg-white p-4 rounded-xl">
@@ -288,12 +419,14 @@ const Checkout = () => {
                   placeholder="Промокод"
                   minLength={6}
                   type="text"
-                  value=""
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
                 />
                 <div className="flex items-center gap-2 flex-wrap mt-3 "></div>
               </div>
               <button
-                disabled
+                type="button"
+                onClick={() => setDiscount(applyDiscount(promoCode))}
                 className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer py-4 px-4 overflow-hidden bg-[#2F9155] rounded-md h-10 flex items-center justify-center w-36"
               >
                 Применить
@@ -326,15 +459,22 @@ const Checkout = () => {
               <div className="flex items-center justify-between">
                 <p className="text-telegram-hint">Кол-во товаров</p>
                 <p className="text-black">
-                  <span className="font-semibold">{products.length}</span>
+                  <span className="font-semibold">
+                    {products.reduce(
+                      (acc, product) => acc + product.quantity,
+                      0
+                    )}
+                  </span>
                   <span className="text-telegram-hint ml-1">щт</span>
                 </p>
               </div>
               {products.map((product, index) => (
                 <div key={index} className="flex items-center justify-between">
-                  <p className="text-telegram-hint">{product.name}</p>
+                  <p className="text-telegram-hint">{product.title}</p>
                   <p className="text-black">
-                    <span className="font-semibold">{product.price}</span>
+                    <span className="font-semibold">
+                      {product.quantity} x {product.price}
+                    </span>
                     <span className="text-telegram-hint"> сум</span>
                   </p>
                 </div>
@@ -349,7 +489,7 @@ const Checkout = () => {
           </div>
           <div className="sticky bottom-0">
             <button
-              disabled
+              type="submit"
               className="text-white disabled:bg-[#6fb188] disabled:cursor-not-allowed cursor-pointer items-center py-4 px-4 rounded-xl overflow-hidden bg-[#2F9155] mt-4 rounded-t-xl flex justify-center max-w-screen-sm w-full"
             >
               <span>Оформить заказ</span>
