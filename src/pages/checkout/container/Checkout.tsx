@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 import AddressComp from "../components/AddressComp";
@@ -8,7 +8,7 @@ import AddressComp from "../components/AddressComp";
 // import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Cash from "../images/cash.svg";
 import ClickPay from "../images/click.webp";
-import { Radio, RadioGroup, Snackbar, TextField } from "@mui/material";
+import { Radio, RadioGroup } from "@mui/material";
 import { useForm } from "react-hook-form";
 import currency from "currency.js";
 import { useSelector } from "react-redux";
@@ -33,6 +33,10 @@ interface FormData {
   address?: string;
 }
 
+const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
+  return price - price * (discountPercent / 100);
+};
+
 const Checkout: React.FC = () => {
   const {
     register,
@@ -46,6 +50,7 @@ const Checkout: React.FC = () => {
   const cartitems = useSelector(
     (state: RootState) => state.cart
   ) as ProductType[];
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [deliveryMethod, setDeliveryMethod] = useState("free_delivery");
@@ -63,20 +68,25 @@ const Checkout: React.FC = () => {
   }, [setValue]);
 
   const calculateTotalPrice = (): string => {
-    const productTotal = cartitems.reduce((acc, product) => {
-      const calculateDiscountedPrice = (
-        price: number,
-        discountPercent: number
-      ): number => {
-        return price - price * (discountPercent / 100);
-      };
+    console.log(cartitems);
 
+    const calculateDiscountedPrice = (
+      price: number,
+      discountPercent: number
+    ): number => {
+      return price - price * (discountPercent / 100);
+    };
+
+    // Calculate productTotal
+    const productTotal = cartitems.reduce((acc, product) => {
       const discountedPrice = calculateDiscountedPrice(
         product.price,
         product.discount_percent || 0
       );
+
       return acc + discountedPrice * product.quantity;
     }, 0);
+
     const deliveryFee = deliveryMethod === "delivery" ? 20000 : 0;
 
     const totalBeforeDiscount = productTotal + deliveryFee;
@@ -93,12 +103,10 @@ const Checkout: React.FC = () => {
   };
 
   const applyDiscount = (code: string) => {
-    if (code === "PROMO10") {
-      return 10000; // 10,000 discount
-    } else {
-      alert("No Promocode")
+    if (code !== "PROMO10") {
       return 0; // No discount
     }
+    return 10000; // 10,000 discount
   };
   const onSubmit = (data: FormData) => {
     const discountAmount = applyDiscount(promoCode);
@@ -106,8 +114,8 @@ const Checkout: React.FC = () => {
     console.log("Form Data: ", data);
 
     reset();
+    navigate("/profile");
   };
-
 
   return (
     <>
@@ -384,8 +392,9 @@ const Checkout: React.FC = () => {
                 id="comment"
                 {...register("comment")}
                 placeholder="Комментарий к заказу"
-                rows={5} cols={40}
-                style={{resize: "none"}}
+                rows={5}
+                cols={40}
+                style={{ resize: "none" }}
                 className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
               />
             </div>
@@ -468,12 +477,16 @@ const Checkout: React.FC = () => {
                   <span className="text-telegram-hint ml-1">щт</span>
                 </p>
               </div>
-              {products.map((product, index) => (
+              {cartitems.map((product, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <p className="text-telegram-hint">{product.title}</p>
                   <p className="text-black">
                     <span className="font-semibold">
-                      {product.quantity} x {product.price}
+                      {product.quantity} x{" "}
+                      {calculateDiscountedPrice(
+                        product.price,
+                        product.discount_percent || 0
+                      )}
                     </span>
                     <span className="text-telegram-hint"> сум</span>
                   </p>
