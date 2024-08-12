@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { categoriesArr } from "../../../constants/Categories.constants";
 import { ProductCard } from "../../../components";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export interface ProductType {
   product_id: number;
@@ -58,7 +58,6 @@ const SingleCategorie: React.FC = () => {
     // Add logic for card click if needed
   };
 
-
   return (
     <>
       <div className="">
@@ -99,9 +98,11 @@ const SingleCategorie: React.FC = () => {
                   onCardClick={handleCardClick}
                   product_id={product.product_id}
                   items={{
-                    product_id: product.product_id, 
-                    quantity: 1
+                    product_id: product.product_id,
+                    quantity: 1,
                   }}
+                  size={product.size}
+                  color={product.color}
                 />
               ))
             ) : (

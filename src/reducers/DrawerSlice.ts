@@ -5,6 +5,7 @@ interface DrawerState {
   locationOpen: boolean;
   priceSortOpen: boolean;
   sortOpen: boolean;
+  productOpen: boolean;
 }
 
 const initialState: DrawerState = {
@@ -12,7 +13,7 @@ const initialState: DrawerState = {
   locationOpen: false,
   priceSortOpen: false,
   sortOpen: false,
-
+  productOpen: false,
 };
 
 const drawerSlice = createSlice({
@@ -31,16 +32,20 @@ const drawerSlice = createSlice({
     toggleSortDrawer(state) {
       state.sortOpen = !state.sortOpen;
     },
+    toggleProductDrawer(state) {
+      state.productOpen = !state.productOpen;
+    },
     closeAllDrawers(state) {
       state.languageOpen = false;
       state.locationOpen = false;
-      state.priceSortOpen = false
-      state.sortOpen = false
+      state.priceSortOpen = false;
+      state.sortOpen = false;
+      state.productOpen = false;
     },
   },
 });
 
-export const { toggleLanguageDrawer, toggleLocationDrawer, togglePriceSortDrawer, toggleSortDrawer, closeAllDrawers } = drawerSlice.actions;
+export const { toggleLanguageDrawer, toggleLocationDrawer, togglePriceSortDrawer, toggleSortDrawer, toggleProductDrawer, closeAllDrawers } = drawerSlice.actions;
 export default drawerSlice.reducer;
 
 
