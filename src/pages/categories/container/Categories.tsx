@@ -83,6 +83,10 @@ const Categories = () => {
           (maxPrice === "" || price <= maxPrice)
         );
       });
+    
+     if (sorted.length === 0) {
+      return alert('No products available in this price range.');
+    }
     }
 
     if (selectedSort === "expensive") {
@@ -247,7 +251,7 @@ const Categories = () => {
             {t("apply")}
           </button>
           <div className="flex-col items-center z-50 mt-3 select-none transition relative -left-0 opacity-100 -translate-y-0 flex">
-            {/* Pagination or other content here */}
+           
           </div>
         </div>
       </BottomDrawer>
