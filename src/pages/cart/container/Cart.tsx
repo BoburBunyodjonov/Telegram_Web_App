@@ -1,11 +1,12 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CartCard from "../components/CartCard";
 import DeleteIcon from "@mui/icons-material/Delete";
 import currency from "currency.js";
 import { RootState } from "../../../store/store";
 import { useTranslation } from "react-i18next";
+import { clearCart } from "../../../reducers/CartSlice";
 
 interface ProductType {
   product_id: number;
@@ -18,6 +19,7 @@ interface ProductType {
 }
 
 const Cart: React.FC = () => {
+  const dispatch = useDispatch();
   const cartitems = useSelector((state: RootState) => state.cart) as ProductType[];
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -47,12 +49,18 @@ const Cart: React.FC = () => {
 
   const totalQuantity = cartitems.reduce((acc, item) => acc + item.quantity, 0);
 
+
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
   return (
     <>
       <div className="h-full bg-white">
         <div className="bg-white flex p-3 justify-between items-center">
           <h2 className="text-2xl font-semibold text-telegram-black">{t('cart')}</h2>
-          <DeleteIcon />
+          <DeleteIcon onClick={handleClearCart} />
         </div>
         <div className="h-[74vh] overflow-scroll bg-white">
           {cartitems.map((data: ProductType) => (

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import opencage from 'opencage-api-client'; // Ensure this is correctly configured with your API key
+import { Link } from 'react-router-dom';
 
 const loadYandexMaps = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
@@ -160,6 +161,13 @@ const Map: React.FC = () => {
           >
             Сохранить адрес
           </button>
+          <Link to='/checkout'>
+          <button
+            type="button"
+            className="text-white bg-red-500 cursor-pointer flex justify-center items-center w-full py-4 px-4 overflow-hidden mt-3 rounded-xl"
+          >
+            Qaytish
+          </button></Link>
         </div>
       </form>
     </>

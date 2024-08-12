@@ -8,7 +8,7 @@ import AddressComp from "../components/AddressComp";
 // import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Cash from "../images/cash.svg";
 import ClickPay from "../images/click.webp";
-import { Radio, RadioGroup} from "@mui/material";
+import { Radio, RadioGroup, Snackbar, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import currency from "currency.js";
 import { useSelector } from "react-redux";
@@ -96,19 +96,18 @@ const Checkout: React.FC = () => {
     if (code === "PROMO10") {
       return 10000; // 10,000 discount
     } else {
+      alert("No Promocode")
       return 0; // No discount
     }
   };
   const onSubmit = (data: FormData) => {
-    // Apply the discount and set it
     const discountAmount = applyDiscount(promoCode);
     setDiscount(discountAmount);
-
-    // Log the form data
     console.log("Form Data: ", data);
 
     reset();
   };
+
 
   return (
     <>
@@ -131,7 +130,7 @@ const Checkout: React.FC = () => {
             </Typography>
           </div>
         </div>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form action="" onSubmit={handleSubmit(onSubmit)} noValidate>
           {localStorage.getItem("userAddress") ? (
             <div className=" bg-white mt-2 p-4 rounded-2xl">
               <input
@@ -385,7 +384,8 @@ const Checkout: React.FC = () => {
                 id="comment"
                 {...register("comment")}
                 placeholder="Комментарий к заказу"
-                rows={4}
+                rows={5} cols={40}
+                style={{resize: "none"}}
                 className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
               />
             </div>
@@ -415,13 +415,13 @@ const Checkout: React.FC = () => {
             <div className="flex items-start gap-3 mt-3">
               <div className="flex-grow">
                 <input
-                  className="outline-0 border rounded-md px-3 py-2 w-full"
+                  className="... invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 outline-0 border rounded-md px-3 py-2 w-full"
                   placeholder="Промокод"
-                  minLength={6}
                   type="text"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                 />
+
                 <div className="flex items-center gap-2 flex-wrap mt-3 "></div>
               </div>
               <button
