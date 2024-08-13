@@ -9,8 +9,9 @@ const Layout = () => {
     <>
          <div className="md:max-w-[500px] container overflow-scroll h-[90.8vh]  mx-auto">
           <Outlet />
-          <Navbar/>
          </div>
+         <Navbar/>
+
 
     </>
   )

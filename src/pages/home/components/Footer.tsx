@@ -14,7 +14,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="px-3 py-5 bg-white mt-5 rounded-t-2xl">
+      <footer className="px-3 py-5 bg-white rounded-t-2xl">
         <p className="">{t('social_media')}</p>
         <div className="flex items-center justify-start gap-2 mt-1">
           <Link

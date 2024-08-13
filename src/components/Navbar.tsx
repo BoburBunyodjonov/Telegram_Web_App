@@ -18,7 +18,7 @@ const Navbar = () => {
   const totalQuantity = cartitems.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <>
-      <div className="md:max-w-[500px] container mx-auto fixed bottom-0 grid grid-cols-4 px-1 bg-white border-t rounded-t-lg z-40 pb-2">
+      <div className="md:max-w-[500px] container mx-auto  bottom-0 grid grid-cols-4 px-1 bg-white border-t rounded-t-lg z-40 pb-2">
         <NavLink
           className={`p-3 flex flex-col items-center flex-grow justify-center fill-white text-black ${
             location.pathname === "/" ? "text-green-500" : ""
