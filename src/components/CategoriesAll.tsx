@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CategoriesCard from "./CategoriesCard";
-import { categoriesArr, CategoryType } from "../constants/Categories.constants"; // Ensure correct import path
+import { categoriesArr, CategoryType } from "../constants/Categories.constants";
 import { NavLink, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Skeleton } from "@mui/material";

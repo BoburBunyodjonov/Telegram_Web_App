@@ -16,7 +16,7 @@ import { RootState } from "../store/store";
 import uzFlag from "../assets/lang-uzb.eaff17a4.svg";
 import ruFlag from "../assets/lang-rus.591ff664.svg";
 import enFlag from "../assets/lang-en.55990df2.svg";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 interface LanguageDrawerProps {
   open: boolean;
@@ -57,7 +57,7 @@ const LanguageDrawer: React.FC<LanguageDrawerProps> = ({ open, onClose }) => {
               <h2 className="flex-1 font-semibold text-2xl text-telegram-black">
                 Выберите язык
               </h2>
-              <CloseIcon  className=" cursor-pointer"  />
+              <CloseIcon className=" cursor-pointer" />
             </div>
             <div className="mt-2 false w-full border-b border-telegram-hint opacity-20"></div>
           </div>
