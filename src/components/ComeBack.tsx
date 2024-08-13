@@ -32,9 +32,7 @@ const ComeBack: React.FC<ComeBackProps> = (props) => {
 
   return (
     <div
-      className={`${
-        isVisible ? "bg-white" : ""
-      } p-2 py-4 w-full max-w-[31rem] mx-auto flex justify-between items-center fixed top-0 left-1/2 transform -translate-x-1/2 z-50`}
+      className={`${isVisible ? "bg-white" : "" } p-2 py-4 w-full max-w-[31rem] mx-auto flex justify-between items-center fixed top-0 left-1/2 transform -translate-x-1/2 z-50`}
     >
       <NavLink to="/">
         <ArrowBackIosIcon

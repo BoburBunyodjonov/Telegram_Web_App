@@ -86,6 +86,8 @@ const ProductCardDetails: React.FC = () => {
     dispatch(setSelectedSize(size));
   };
 
+
+  const allProducts = categoriesArr.flatMap(category => category.products);
   return (
     <>
       <ComeBack text={item.title as string} />
@@ -196,7 +198,7 @@ const ProductCardDetails: React.FC = () => {
             {item.description}
           </Typography>
         </div>
-        <ProductList>
+        <ProductList products={allProducts}>
           <div className="flex justify-between">
             <h2 className="font-semibold text-telegram-black py-2 text-xl">
               Похожие товары
