@@ -86,7 +86,7 @@ const Cart: React.FC = () => {
         </div>
 
         {cartitems.length > 0 && (
-          <div className="md:w-[500px] container bg-white flex fixed shadow-xl items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16 mx-auto bottom-navbarHeight shadow-top">
+          <div className="md:w-[500px] container bg-white mb-4 flex fixed  items-center justify-between pb-5 pt-2 px-3 z-20 bottom-16 mx-auto bottom-navbarHeight shadow-top">
             <div>
               <p className="font-semibold text-xl">
                 {calculateTotalPrice()} {cartitems[0].currency}
