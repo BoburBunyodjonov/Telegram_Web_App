@@ -10,12 +10,9 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 // Currency
 import currency_value from "currency.js";
 
-// Redux
 import { useDispatch, useSelector } from "react-redux";
 import { add, increaseQuantity, decreaseQuantity } from "../reducers/CartSlice";
 import { RootState } from "../store/store";
-
-// MUI
 import { Skeleton, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import BottomDrawer from "./BottomModal";
@@ -23,6 +20,7 @@ import BottomDrawer from "./BottomModal";
 // Define the props interface
 interface ProductCardProps {
   product_img: string[];
+  key: number;
   discount_percent: number;
   price: number;
   title: string;
@@ -69,7 +67,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       setAddedToCart(false);
       setQuantity(0);
     }
-    setLoading(false); // Set loading state to false after the initial check
   }, [cartItems, items.product_id]);
 
   const calculateDiscountedPrice = (price: number, discountPercent: number) => {
@@ -93,7 +90,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     if (!addedToCart) {
       setProductDrawerOpen(true);
     }
-    if (productDrawerOpen) {
+
+    if (productDrawerOpen === true) {
       dispatch(add(items));
       setAddedToCart(true);
       setQuantity(1);
@@ -102,18 +100,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleIncrease = () => {
     dispatch(increaseQuantity(product_id));
-    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 35)); // Limit to max 35
+    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
     if (quantity > 1) {
       dispatch(decreaseQuantity(product_id));
-      setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 0)); // Prevent going below 0
+      setQuantity((prevQuantity) => prevQuantity - 1);
     } else if (quantity === 1) {
       dispatch(decreaseQuantity(product_id));
       setAddedToCart(false);
     }
   };
+
+  useEffect(() => {
+    setInterval(() => {
+      setLoading(false);
+    }, 500);
+  });
 
   const { t } = useTranslation();
 
@@ -161,6 +165,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </p>
             </div>
           </div>
+        </>
+      )}
+
+      {loading ? (
+        <React.Fragment>
+          <Skeleton animation="wave" height={20} />
+          <Skeleton animation="wave" height={20} />
+          <Skeleton width="100%" height={40} variant="rounded" />
+        </React.Fragment>
+      ) : (
+        <>
           <div className="p-1.5">
             <div className="flex flex-grow-1 items-start flex-col mt-1">
               <div className="flex w-full justify-between 2xs:items-center flex-row items-start">
@@ -182,34 +197,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           </div>
           <div className="p-1.5">
-            {addedToCart ? (
+          {addedToCart ? (
               <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
                 <button
                   onClick={handleDecrease}
                   type="button"
                   className="active:bg-gradient-to-r flex-grow flex text-telegram-black items-center justify-start px-2 py-1 active:from-[#00000010]"
-                  aria-label="Decrease quantity"
                 >
                   <RemoveIcon />
                 </button>
                 <input
                   min="0"
+                  pattern="[0-9]*"
                   max="35"
                   className="w-10 bg-[#F8F8F8] flex-grow text-center py-2 px-0 text-telegram-black bg-telegram-secondary-white outline-none"
                   type="text"
                   value={quantity}
-                  onChange={(e) => {
-                    const newValue = Number(e.target.value);
-                    if (newValue >= 0 && newValue <= 35) {
-                      setQuantity(newValue);
-                    }
-                  }}
                 />
                 <button
                   onClick={handleIncrease}
                   type="button"
-                  className="flex-grow items-center flex justify-end px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
-                  aria-label="Increase quantity"
+                  className="flex-grow items-center flex justify-end  px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
                 >
                   <AddIcon />
                 </button>
@@ -249,7 +257,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         </div>
         <div className="p-4 w-full">
-          <div>
+          <div className="">
             <p className="flex items-center text-white bg-red-500 w-fit font-semibold py-[1px] text-center rounded-md px-2 text-[10px] z-10">
               <LocalFireDepartmentIcon />
               <a href="/ProductCardDetails">Распродажа</a>
@@ -269,12 +277,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <button
                   key={col}
                   type="button"
-                  style={{ backgroundColor: col }}
+                  style={{ backgroundColor: col }} 
                   className={`w-6 h-6 rounded-full border ${
                     selectedColor === col ? "border-4 border-yellow-500" : ""
                   }`}
                   onClick={() => handleColorClick(col)}
-                  aria-label={`Color: ${col}`}
                 />
               ))}
             </div>
@@ -289,7 +296,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     selectedSize === size ? "bg-[#309156] text-white" : ""
                   }`}
                   onClick={() => handleSizeClick(size)}
-                  aria-label={`Size: ${size}`}
                 >
                   {size}
                 </button>
@@ -308,34 +314,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   onClick={handleDecrease}
                   type="button"
                   className="active:bg-gradient-to-r flex-grow flex text-telegram-black items-center justify-start px-2 py-1 active:from-[#00000010]"
-                  aria-label="Decrease quantity"
                 >
                   <RemoveIcon />
                 </button>
                 <input
                   min="0"
+                  pattern="[0-9]*"
                   max="35"
                   className="w-10 bg-[#F8F8F8] flex-grow text-center py-2 px-0 text-telegram-black bg-telegram-secondary-white outline-none"
-                  type="number"
+                  type="text"
                   value={quantity}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const newValue = Number(value);
-                    console.log('Input value:', value, 'New value:', newValue); // Debug
-                  
-                    if (value === '' || (!isNaN(newValue) && newValue >= 0 && newValue <= 35)) {
-                      setQuantity(newValue);
-                    }
-                  }}
-                  
-                  aria-label="Product quantity"
                 />
-
                 <button
                   onClick={handleIncrease}
                   type="button"
-                  className="flex-grow items-center flex justify-end px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
-                  aria-label="Increase quantity"
+                  className="flex-grow items-center flex justify-end  px-2 py-1 text-telegram-black active:bg-gradient-to-l active:from-[#00000010]"
                 >
                   <AddIcon />
                 </button>
