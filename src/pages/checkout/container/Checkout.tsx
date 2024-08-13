@@ -8,12 +8,13 @@ import AddressComp from "../components/AddressComp";
 // import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Cash from "../images/cash.svg";
 import ClickPay from "../images/click.webp";
-import { Radio, RadioGroup } from "@mui/material";
+import {Radio, RadioGroup } from "@mui/material";
 import { useForm } from "react-hook-form";
 import currency from "currency.js";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { clearCart } from "../../../reducers/CartSlice";
+import { useTranslation } from "react-i18next";
 // import { Dayjs } from "dayjs";
 
 interface ProductType {
@@ -59,6 +60,7 @@ const Checkout: React.FC = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("free_delivery");
   const [discount, setDiscount] = useState<number>(0);
   const [promoCode, setPromoCode] = useState("");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const savedProducts = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -71,7 +73,6 @@ const Checkout: React.FC = () => {
   }, [setValue]);
 
   const calculateTotalPrice = (): string => {
-    console.log(cartitems);
 
     const calculateDiscountedPrice = (
       price: number,
@@ -117,8 +118,10 @@ const Checkout: React.FC = () => {
     console.log("Form Data: ", data);
 
     reset();
+    alert('Buyurtmangiz qabul qilindi !')
     navigate("/profile");
     dispatch(clearCart());
+
   };
 
   return (
@@ -138,7 +141,8 @@ const Checkout: React.FC = () => {
               fontWeight={600}
               color="initial"
             >
-              Оформить заказ
+              {t("place_an_order")}
+              
             </Typography>
           </div>
         </div>
@@ -158,7 +162,7 @@ const Checkout: React.FC = () => {
           )}
           <div className="p-4 bg-white mt-2 rounded-2xl">
             <h2 className="font-semibold text-2xl mb-4 text-telegram-black">
-              Получатель заказа
+              {t("recipient_of_the_order")}
             </h2>
             <div className="mt-2 mb-5 w-full border-b border-telegram-hint opacity-20"></div>
             <div className="">
@@ -167,19 +171,19 @@ const Checkout: React.FC = () => {
                   id="name"
                   {...register("name", { required: true })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4"
-                  placeholder="Ваше имя"
+                  placeholder={t('your_name')}
                   required
                   type="text"
                 />
                 {errors.name && (
-                  <p className="text-red-600">Name is required</p>
+                  <p className="text-red-600">{t("name_is_required")}</p>
                 )}
               </div>
               <div className="mt-4">
                 <input
                   id="phone"
                   {...register("phone", {
-                    required: "Номер телефона обязателен",
+                    required: true,
                     pattern: {
                       value: /^\+998\d{2}\d{7}$/,
                       message: "Неверный номер телефона",
@@ -202,7 +206,7 @@ const Checkout: React.FC = () => {
                   }
                 />
                 {errors.phone && (
-                  <p className="text-red-600">Valid phone number is required</p>
+                  <p className="text-red-600">{t('phone_number_is_required')}</p>
                 )}
               </div>
             </div>
@@ -215,10 +219,10 @@ const Checkout: React.FC = () => {
             <div className="p-4 bg-white mt-4 rounded-2xl">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-telegram-black py-2 text-xl opacity-100">
-                  Выберите способ доставки
+                  {t('select_delivery_method')}
                 </h2>
                 <p className="text-telegram-black font-semibold">
-                  {deliveryMethod === "delivery" ? "20 000 сум" : "Бесплатно"}
+                  {deliveryMethod === "delivery" ? "20 000 сум" : `${t('free')}` }
                 </p>
               </div>
               <div className="mt-2 false w-full border-b border-telegram-hint opacity-20"></div>
@@ -226,7 +230,7 @@ const Checkout: React.FC = () => {
                 <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
                   <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
                     <div className="flex flex-col">
-                      <p className="w-full opacity-100">Бесплатная доставка</p>
+                      <p className="w-full opacity-100">{t('free_delivery')}</p>
                     </div>
                   </div>
                   <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
@@ -244,7 +248,7 @@ const Checkout: React.FC = () => {
                 <div className="flex justify-between py-3 gap-2 cursor-pointer items-center border-b border-opacity-20 last:border-b-none">
                   <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
                     <div className="flex flex-col">
-                      <p className="w-full opacity-100">Самовывоз</p>
+                      <p className="w-full opacity-100">{t('pickup')}</p>
                     </div>
                   </div>
                   <div className="relative rounded-full bg-telegram-secondary-white max-w-[32px] min-w-[32px] h-8 shadow-inner">
@@ -263,7 +267,7 @@ const Checkout: React.FC = () => {
                   <div className="text-telegram-black flex-grow font-semibold flex items-center gap-2">
                     <div className="flex flex-col">
                       <p className="w-full opacity-100">
-                        Доставка - 20 000 сум
+                        {t('delivery')} - 20 000 {t('sum')}
                       </p>
                     </div>
                   </div>
@@ -284,7 +288,7 @@ const Checkout: React.FC = () => {
           <RadioGroup name="payment_type" defaultValue="cash">
             <div className="p-4 bg-white mt-4 rounded-2xl">
               <h2 className="font-semibold text-telegram-black py-2 text-xl">
-                Способ оплаты
+                {t('payment_method')}
               </h2>
               <div className="mt-2 mb-5 w-full border-b opacity-20"></div>
               <div className="grid grid-cols-1 items-center gap-2">
@@ -305,7 +309,7 @@ const Checkout: React.FC = () => {
                         />
                         <div className="col-span-9">
                           <p className="text-md font-semibold line-clamp-1">
-                            Naqd pul
+                            {t('cash')}
                           </p>
                         </div>
                       </div>
@@ -388,14 +392,14 @@ const Checkout: React.FC = () => {
 
           <div className="p-4 bg-white mt-4 rounded-2xl">
             <h2 className="font-semibold text-telegram-black my-2 text-xl">
-              Комментарий к заказу
+              {t('comment')}
             </h2>
             <div className="mt-2 mb-5 w-full border-b border-telegram-hint opacity-20"></div>
             <div className="">
               <textarea
                 id="comment"
                 {...register("comment")}
-                placeholder="Комментарий к заказу"
+                placeholder={t('comment')}
                 rows={5}
                 cols={40}
                 style={{ resize: "none" }}
@@ -406,7 +410,7 @@ const Checkout: React.FC = () => {
           <div className="mt-4 bg-white p-4 rounded-xl">
             <div className="flex items-center justify-between cursor-pointer">
               <h2 className="font-semibold text-telegram-black text-xl">
-                Есть промокод?
+                {t('have_promocode')}
               </h2>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -429,7 +433,7 @@ const Checkout: React.FC = () => {
               <div className="flex-grow">
                 <input
                   className="... invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 outline-0 border rounded-md px-3 py-2 w-full"
-                  placeholder="Промокод"
+                  placeholder={t('promocode')}
                   type="text"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
@@ -442,14 +446,14 @@ const Checkout: React.FC = () => {
                 onClick={() => setDiscount(applyDiscount(promoCode))}
                 className="text-white disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer py-4 px-4 overflow-hidden bg-[#2F9155] rounded-md h-10 flex items-center justify-center w-36"
               >
-                Применить
+                {t('apply')}
               </button>
             </div>
           </div>
           <div className="p-4 bg-white mt-4 rounded-2xl">
             <div className="flex justify-between">
               <h2 className="font-semibold text-telegram-black py-2 text-xl">
-                Детали заказа
+                {t('order_details')}
               </h2>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -470,7 +474,7 @@ const Checkout: React.FC = () => {
             </div>
             <div className="mt-3 [&amp;>div]:border-b [&amp;>div]:py-2 ">
               <div className="flex items-center justify-between">
-                <p className="text-telegram-hint">Кол-во товаров</p>
+                <p className="text-telegram-hint">{t('number_of_products')}</p>
                 <p className="text-black">
                   <span className="font-semibold">
                     {products.reduce(
@@ -478,7 +482,7 @@ const Checkout: React.FC = () => {
                       0
                     )}
                   </span>
-                  <span className="text-telegram-hint ml-1">щт</span>
+                  <span className="text-telegram-hint ml-1">{t('shkt')}</span>
                 </p>
               </div>
               {cartitems.map((product, index) => (
@@ -492,14 +496,14 @@ const Checkout: React.FC = () => {
                         product.discount_percent || 0
                       )}
                     </span>
-                    <span className="text-telegram-hint"> сум</span>
+                    <span className="text-telegram-hint"> {t('sum')}</span>
                   </p>
                 </div>
               ))}
               <div className="flex items-center justify-between mt-1">
-                <p className="font-semibold text-lg">Итого к оплате:</p>
+                <p className="font-semibold text-lg">{t('total')}:</p>
                 <p className="font-semibold text-lg">
-                  {calculateTotalPrice()} сум
+                  {calculateTotalPrice()} {t('sum')}
                 </p>
               </div>
             </div>
@@ -509,7 +513,7 @@ const Checkout: React.FC = () => {
               type="submit"
               className="text-white disabled:bg-[#6fb188] disabled:cursor-not-allowed cursor-pointer items-center py-4 px-4 rounded-xl overflow-hidden bg-[#2F9155] mt-4 rounded-t-xl flex justify-center max-w-screen-sm w-full"
             >
-              <span>Оформить заказ</span>
+              <span>{t('place_an_order')}</span>
             </button>
           </div>
         </form>

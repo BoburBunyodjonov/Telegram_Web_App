@@ -12,7 +12,6 @@ const Navbar = () => {
   ) as ProductType[];
   const location = useLocation();
 
-  console.log(location.pathname);
 
   const { t } = useTranslation();
 

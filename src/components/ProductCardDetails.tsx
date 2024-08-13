@@ -37,7 +37,7 @@ const ProductCardDetails: React.FC = () => {
 
   useEffect(() => {
     if (!id) {
-      console.log("Error: id is undefined");
+      // console.log("Error: id is undefined");
       return;
     }
 
@@ -55,7 +55,7 @@ const ProductCardDetails: React.FC = () => {
     setItem(foundItem || null);
 
     if (!foundItem) {
-      console.log("Error: Item not found");
+      // console.log("Error: Item not found");
     }
   }, [id]);
 

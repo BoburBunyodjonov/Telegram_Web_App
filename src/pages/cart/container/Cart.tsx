@@ -75,7 +75,7 @@ const Cart: React.FC = () => {
                 {calculateTotalPrice()} {cartitems[0].currency}
               </p>
               <p className="text-telegram-hint">
-                {totalQuantity} {t('items')}
+                {totalQuantity} {t('product')}
               </p>
             </div>
             <button

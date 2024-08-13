@@ -29,7 +29,6 @@ const Map: React.FC = () => {
     loadYandexMaps()
       .then(() => {
         setIsYmapsLoaded(true);
-        console.log('Yandex Maps API loaded successfully');
       })
       .catch((error) => console.error('Error loading Yandex Maps API:', error));
   }, []);
@@ -114,7 +113,7 @@ const Map: React.FC = () => {
         key: 'd95fad497c0b4b039a93e7315e9a5b60', // Replace with your actual API key
         language: 'en',
       });
-      console.log('Coordinates for geocoding:', `${latitude},${longitude}`);
+      // console.log('Coordinates for geocoding:', `${latitude},${longitude}`);
 
       if (response.status.code === 200) {
         if (response.results.length > 0) {
