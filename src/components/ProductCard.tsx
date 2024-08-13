@@ -28,8 +28,13 @@ interface ProductCardProps {
   onCardClick: () => void;
   product_id: number;
   items: {
+    title: string;
+    product_img: string[];
     product_id: number;
     quantity: number;
+    price: number;
+    discount_percent: number;
+    currency: string;
   };
   size: number[];
   color: string[];
@@ -43,9 +48,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
   product_id,
   items,
+  onCardClick,
+  key,
   color,
   size,
-  onCardClick,
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart);
@@ -197,7 +203,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           </div>
           <div className="p-1.5">
-          {addedToCart ? (
+            {addedToCart ? (
               <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
                 <button
                   onClick={handleDecrease}
@@ -277,7 +283,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <button
                   key={col}
                   type="button"
-                  style={{ backgroundColor: col }} 
+                  style={{ backgroundColor: col }}
                   className={`w-6 h-6 rounded-full border ${
                     selectedColor === col ? "border-4 border-yellow-500" : ""
                   }`}

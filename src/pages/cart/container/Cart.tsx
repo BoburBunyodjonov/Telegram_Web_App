@@ -15,22 +15,30 @@ interface ProductType {
   quantity: number;
   title: string;
   product_img: string[];
-  currency: string; 
+  currency: string;
 }
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const cartitems = useSelector((state: RootState) => state.cart) as ProductType[];
+  const cartitems = useSelector(
+    (state: RootState) => state.cart
+  ) as ProductType[];
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const calculateTotalPrice = (): string => {
     let totalPrice = 0;
     cartitems.forEach((product: ProductType) => {
-      const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
+      const calculateDiscountedPrice = (
+        price: number,
+        discountPercent: number
+      ): number => {
         return price - price * (discountPercent / 100);
       };
-      const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percent);
+      const discountedPrice = calculateDiscountedPrice(
+        product.price,
+        product.discount_percent
+      );
       totalPrice += discountedPrice * product.quantity;
     });
 
@@ -49,8 +57,6 @@ const Cart: React.FC = () => {
 
   const totalQuantity = cartitems.reduce((acc, item) => acc + item.quantity, 0);
 
-
-
   const handleClearCart = () => {
     dispatch(clearCart());
   };
@@ -59,12 +65,23 @@ const Cart: React.FC = () => {
     <>
       <div className="h-full bg-white">
         <div className="bg-white flex p-3 justify-between items-center">
-          <h2 className="text-2xl font-semibold text-telegram-black">{t('cart')}</h2>
+          <h2 className="text-2xl font-semibold text-telegram-black">
+            {t("cart")}
+          </h2>
           <DeleteIcon onClick={handleClearCart} />
         </div>
         <div className="h-[74vh] overflow-scroll bg-white">
           {cartitems.map((data: ProductType) => (
-            <CartCard key={data.product_id} {...data} />
+            <CartCard
+              key={data.product_id}
+              product_id={data.product_id}
+              price={data.price}
+              discount_percent={data.discount_percent}
+              quantity={data.quantity}
+              title={data.title}
+              product_img={data.product_img}
+              currency={data.currency}
+            />
           ))}
         </div>
 
@@ -75,14 +92,14 @@ const Cart: React.FC = () => {
                 {calculateTotalPrice()} {cartitems[0].currency}
               </p>
               <p className="text-telegram-hint">
-                {totalQuantity} {t('product')}
+                {totalQuantity} {t("product")}
               </p>
             </div>
             <button
               className="text-sm font-semibold px-3 py-3 bg-[#309156] rounded-xl shadow-sm mt-auto flex items-center justify-center gap-1 bg-telegram-primary text-white"
               onClick={handleCheckout}
             >
-              {t('checkout')}
+              {t("checkout")}
             </button>
           </div>
         )}

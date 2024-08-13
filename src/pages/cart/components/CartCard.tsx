@@ -5,8 +5,6 @@ import AddIcon from "@mui/icons-material/Add";
 import currency_value from "currency.js";
 import { increaseQuantity, decreaseQuantity } from "../../../reducers/CartSlice";
 
-
-
 interface CartCardProps {
   product_id?: number;
   price?: number;
@@ -18,58 +16,64 @@ interface CartCardProps {
   index?: number;
 }
 
-
 const CartCard: React.FC<CartCardProps> = ({
-  index,
-  price,
-  title,
-  discount_percent,
-  product_img,
-  currency,
-  product_id,
-  quantity,
+  index = 0,
+  price = 0,
+  title = "Unknown Product",
+  discount_percent = 0,
+  product_img = [],
+  currency = "USD",
+  product_id = 0,
+  quantity = 0,
 }) => {
   const dispatch = useDispatch();
 
-  const calculateDiscountedPrice = (price: number = 0, discountPercent: number = 0): number => {
+  console.log('CartCard Props:', {
+    index,
+    price,
+    title,
+    discount_percent,
+    product_img,
+    currency,
+    product_id,
+    quantity,
+  });
+
+  const calculateDiscountedPrice = (price: number, discountPercent: number): number => {
     return price - price * (discountPercent / 100);
   };
-
+  
   const discountedPrice = calculateDiscountedPrice(price, discount_percent);
 
-  const effectiveQuantity = quantity !== undefined ? quantity : 0;
-
-  const formattedAmount = currency_value(discountedPrice * effectiveQuantity, {
+  const formattedAmount = currency_value(discountedPrice * quantity, {
     precision: 0,
     symbol: "",
     separator: " ",
   }).format();
 
-  // increase quantity
+  const imgSrc =
+    product_img[0] ||
+    "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg";
+
   const handleIncrease = () => {
     dispatch(increaseQuantity(product_id));
   };
 
-  // decrease quantity
   const handleDecrease = () => {
     dispatch(decreaseQuantity(product_id));
   };
-
-  const imgSrc =
-    product_img?.[0] ||
-    "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg";
 
   return (
     <div
       key={index}
       className="bg-white flex p-3 items-center justify-between py-4 border-b border-opacity-10 "
     >
-      <a className="flex-grow" href="/humodemo/products/7010148810809">
+      <a className="flex-grow" href={`/humodemo/products/${product_id}`}>
         <div className="flex gap-4 items-center">
           <div className="rounded-xl bg-telegram-secondary-white min-w-[64px] h-100 ">
             <div className="relative">
               <img
-                alt="Product"
+                alt={title}
                 loading="lazy"
                 width="64"
                 height="64"

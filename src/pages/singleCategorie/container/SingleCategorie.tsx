@@ -5,6 +5,8 @@ import { categoriesArr } from "../../../constants/Categories.constants";
 import { ProductCard } from "../../../components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+// Currency
+
 export interface ProductType {
   product_id: number;
   title: string;
@@ -64,14 +66,14 @@ const SingleCategorie: React.FC = () => {
         <div className="w-full bg-white p-3 flex items-center sticky top-0 z-[100]">
           <NavLink
             to="/"
-            className="bg-telegram-secondary-white text-telegram-black  text-xl  rounded-xl flex items-center"
+            className="bg-telegram-secondary-white text-telegram-black text-xl rounded-xl flex items-center"
           >
             <ArrowBackIcon className="cursor-pointer text-black ml-3" />
           </NavLink>
 
           <div className="flex flex-col justify-center items-center w-full">
             <Typography
-              className=" text-center"
+              className="text-center"
               variant="h6"
               fontWeight={700}
               color="initial"
@@ -98,8 +100,13 @@ const SingleCategorie: React.FC = () => {
                   onCardClick={handleCardClick}
                   product_id={product.product_id}
                   items={{
+                    title: product.title,
                     product_id: product.product_id,
                     quantity: 1,
+                    product_img: product.product_img,
+                    price: product.price,
+                    discount_percent: product.discount_percent,
+                    currency: product.currency,
                   }}
                   size={product.size}
                   color={product.color}

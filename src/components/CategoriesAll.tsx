@@ -48,6 +48,7 @@ const CategoriesAll: React.FC = () => {
         </div>
         <div className="gap-4 mb-4 grid grid-cols-2">
           {categoriesArr.map((item, index) => {
+            
             if (
               item.id !== undefined &&
               item.name !== undefined &&
