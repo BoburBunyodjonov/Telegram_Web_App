@@ -15,7 +15,7 @@ const BottomDrawer: React.FC<BottomDrawerProps> = ({ open, onClose, title, child
       anchor="bottom"
       open={open}
       onClose={onClose}
-      PaperProps={{ sx: { height: 'auto', maxHeight: '500px', width: '100%', padding: '12px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' } }}
+      PaperProps={{ sx: { height: 'auto', maxHeight: '500px', width: '500px', margin: 'auto', padding: '12px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' } }}
     >
       <div className="flex justify-between items-center p-3">
         <h3 className="text-xl font-bold">{title}</h3>
