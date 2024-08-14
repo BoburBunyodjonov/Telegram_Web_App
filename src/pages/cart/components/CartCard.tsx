@@ -68,7 +68,7 @@ const CartCard: React.FC<CartCardProps> = ({
       key={index}
       className="bg-white flex p-3 items-center justify-between py-4 border-b border-opacity-10 "
     >
-      <a className="flex-grow" href={`/humodemo/products/${product_id}`}>
+      <a className="flex-grow" href={`/ProductCardDetails/${product_id}`}>
         <div className="flex gap-4 items-center">
           <div className="rounded-xl bg-telegram-secondary-white min-w-[64px] h-100 ">
             <div className="relative">
