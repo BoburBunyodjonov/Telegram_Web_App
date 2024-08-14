@@ -306,13 +306,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </button>
               ))}
             </div>
-            <p className="text-lg font-semibold">
-              {formattedAmount} {currency}
-            </p>
-            <p className="text-gray-600 mb-4">
-              {formattedPrice} {currency}
-            </p>
+            <div className="p-1.5">
+            <div className="flex flex-grow-1 items-start flex-col mt-1">
+              <div className="flex w-full justify-between 2xs:items-center flex-row items-start">
+                <p className="text-md font-semibold text-red-500">
+                  {formattedAmount} {currency}
+                </p>
+              </div>
+              <p className="relative font-medium text-xs text-gray-400 before:content-[''] before:absolute before:w-full before:h-[1px] before:bg-gray-400 before:top-1/2">
+                {formattedPrice} {currency}
+              </p>
+            </div>
+          </div>
+            
 
+              
             {addedToCart ? (
               <div className="bg-[#F8F8F8] shadow-sm flex bg-telegram-secondary-white rounded-lg overflow-hidden w-full">
                 <button
