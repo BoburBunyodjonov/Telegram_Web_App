@@ -119,7 +119,7 @@ const Checkout: React.FC = () => {
 
     reset();
     alert('Buyurtmangiz qabul qilindi !')
-    navigate("/profile");
+    navigate("/myorders");
     dispatch(clearCart());
 
   };
