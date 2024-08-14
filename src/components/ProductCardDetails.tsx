@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ProductList from "./ProductList";
-import { useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import { categoriesArr, ProductType } from "../constants/Categories.constants";
 import currency_value from "currency.js";
 import ComeBack from "./ComeBack";
@@ -85,6 +85,8 @@ const ProductCardDetails: React.FC = () => {
   const handleSizeClick = (size: number) => {
     dispatch(setSelectedSize(size));
   };
+
+  
 
 
   const allProducts = categoriesArr.flatMap(category => category.products);

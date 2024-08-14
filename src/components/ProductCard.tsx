@@ -48,10 +48,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
   product_id,
   items,
-  onCardClick,
-  key,
   color,
   size,
+  onCardClick,
+
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart);
@@ -145,8 +145,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <Skeleton sx={{ height: 190 }} animation="wave" variant="rounded" />
       ) : (
         <>
-          <div
-            onClick={onCardClick}
+          <div onClick={onCardClick}
             className="cursor-pointer w-full h-[240px] overflow-hidden relative rounded-xl bg-[#F0F8FF]"
           >
             <img

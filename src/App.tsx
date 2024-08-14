@@ -19,6 +19,7 @@ import {
   Checkout,
   Home,
   Map,
+  MyOrders,
   Profile,
   ProfileInfo,
   SingleCategorie,
@@ -38,9 +39,8 @@ const routes = createBrowserRouter(
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/profile" element={<Profile />}>
-          <Route path="/profile/info" element={<ProfileInfo />} />
-        </Route>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/myorders" element={<MyOrders />} />
         <Route path="/address" element={<Address />} />
         <Route path="/map" element={<Map />} />
         <Route path="/info" element={<ProfileInfo />} />

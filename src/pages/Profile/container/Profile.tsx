@@ -54,7 +54,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <div className="bg-white p-3 h-screen">
+      <div className="bg-white p-3 h-full">
         <Link to="/info">
           <div className="p-2 py-4 flex items-center space-x-4">
             <Avatar>H</Avatar>
@@ -62,7 +62,8 @@ const Profile: React.FC = () => {
           </div>
         </Link>
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-[#F8F8F8] rounded-xl p-3">
+         <Link to="/myorders">
+         <div className="bg-[#F8F8F8] rounded-xl p-3">
             <ShoppingCartIcon className="text-[rgb(156_156_156)]" />
             <Typography
               fontSize={16}
@@ -72,7 +73,7 @@ const Profile: React.FC = () => {
             >
               {t("my_orders")}
             </Typography>
-          </div>
+          </div></Link>
           <div className="bg-[#F8F8F8] rounded-xl p-3">
             <ShoppingBagIcon className="text-[rgb(156_156_156)]" />
             <Typography
